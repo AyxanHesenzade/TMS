@@ -1,0 +1,40 @@
+.layout {
+  height: 100vh;
+}
+
+.sidebar {
+  background-color: #001529 !important;
+}
+
+.logo {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #fff;
+  font-size: 18px;
+}
+
+.header {
+  background: #fff !important;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-bottom: 1px solid #eee;
+}
+
+.content {
+  margin: 16px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.footer {
+  text-align: center;
+  background: #fff;
+  padding: 10px 0;
+  border-top: 1px solid #eee;
+}
