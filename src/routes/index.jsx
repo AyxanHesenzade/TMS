@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import AppLayout from "../components/Layout/Layout";
-import Country from "../pages/Country";
+import Country from "../pages/Country/index";
+import Contact from "../pages/Contact/index";
+import Tour  from "../pages/Tour";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +19,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/contacts",
+        element:<Contact/>
+      },
+      {
+        path:"/tour",
+        element:<Tour/>
       }
+
     ],
   },
 ]);

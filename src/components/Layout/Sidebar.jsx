@@ -1,9 +1,9 @@
 import { Layout, Menu } from "antd";
 import { Link, useLocation } from "react-router-dom";
-// import {
-//   HomeOutlined,
-//   FlagOutlined,
-// } from "@ant-design/icons";
+import {
+  HomeOutlined,
+  FlagOutlined,
+} from "@ant-design/icons";
 
 import styles from "./layout.module.scss";
 
@@ -23,14 +23,22 @@ const Sidebar = () => {
         items={[
           {
             key: "/",
-            // icon: <HomeOutlined />,
+            icon: <HomeOutlined />,
             label: <Link to="/">Dashboard</Link>,
           },
           {
             key: "/countries",
-            // icon: <FlagOutlined />,
+            icon: <FlagOutlined />,
             label: <Link to="/countries">Countries</Link>,
           },
+          {
+            key:"/contacts",
+            label: <Link to="/contacts">Contacts</Link>
+          },
+          {
+            key:'/tour',
+            label:<Link to="/tour">Tours</Link>
+          }
         ]}
       />
     </Sider>

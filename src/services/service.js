@@ -11,3 +11,13 @@ export const GetCountries = async () => {
     return [];
   }
 };
+export const GetContacts = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/Contact`);
+    return response.data; // array qaytaracaq
+  } catch (error) {
+    console.error("Error fetching contacts:", error);
+    throw error;
+  }
+};
+
