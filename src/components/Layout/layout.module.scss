@@ -4,8 +4,6 @@
 
 .sidebar {
   background-color: #001529 !important;
-
-
 }
 
 .logo {
@@ -39,4 +37,33 @@
   background: #fff;
   padding: 10px 0;
   border-top: 1px solid #eee;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 🌙 DARK MODE */
+[data-theme='dark'] {
+  .header {
+    background: #141414 !important;
+    border-bottom: 1px solid #333 !important;
+  }
+
+  .sidebar {
+    background-color: #000c17 !important;
+  }
+
+  .content {
+    background: #1f1f1f !important;
+    color: #e8e8e8 !important;
+  }
+
+  .footer {
+    background: #141414 !important;
+    border-top: 1px solid #333 !important;
+    color: #aaa;
+  }
 }
