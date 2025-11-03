@@ -25,7 +25,8 @@ const Sidebar = () => {
        collapsed={collapsed}
      >
       <div className={styles.logo}></div>
-
+ 
+ 
       <Menu
         theme="dark"
         mode="inline"
