@@ -1,0 +1,49 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 24px;
+}
+.card {
+    width: 100%;
+
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.content {
+    font-size: 17px;
+}
+.title {
+    margin: 0;
+}
+.socialBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+.socialIcons {
+    display: flex;
+    gap: 50px;  
+}
+.icon {
+    font-size: 32px;
+    border-radius: 8px;
+    transition: transform 0.18s ease, opacity 0.18s ease;
+}
+  
+.icon:hover {
+    transform: translateY(-3px);
+    opacity: 0.9;
+}
+
+ 
+  
+

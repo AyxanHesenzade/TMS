@@ -20,8 +20,8 @@
   background: #fff !important;
   padding: 0 20px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: flex-end;
   border-bottom: 1px solid #eee;
 }
 
@@ -39,11 +39,22 @@
   border-top: 1px solid #eee;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+}
+
 .headerRight {
   display: flex;
   align-items: center;
-  gap: 10px;
 }
+
 
 /* 🌙 DARK MODE */
 [data-theme='dark'] {

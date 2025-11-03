@@ -1,12 +1,14 @@
 import { Layout, Avatar, Dropdown, Switch } from "antd";
-import { GlobalOutlined, MoonOutlined, SunOutlined, UserOutlined } from "@ant-design/icons";
+import { GlobalOutlined, MoonOutlined, SunOutlined, UserOutlined, MenuFoldOutlined,MenuUnfoldOutlined  } from "@ant-design/icons";
 import { useTheme } from "../../context/ThemeProvider"; // yeni hook
+import { useLayoutContext} from "../../context/LayoutContext"
 import styles from "./layout.module.scss";
 
 const { Header } = Layout;
 
 const HeaderBar = () => {
   const { mode, toggleTheme } = useTheme();
+  const { collapsed, toggleSidebar } = useLayoutContext();
 
   const languageItems = [
     { key: "az", label: "🇦🇿 Azərbaycan" },
@@ -16,6 +18,21 @@ const HeaderBar = () => {
 
   return (
     <Header className={styles.header}>
+
+<div className={styles.headerLeft}>
+       {collapsed ? (
+         <MenuUnfoldOutlined
+           onClick={toggleSidebar}
+           style={{ fontSize: 22, cursor: "pointer", marginRight: 16 }}
+         />
+       ) : (
+         <MenuFoldOutlined
+           onClick={toggleSidebar}
+           style={{ fontSize: 22, cursor: "pointer", marginRight: 16 }}
+         />
+       )}
+    </div>
+
       <div className={styles.headerRight}>
         <Dropdown menu={{ items: languageItems }} placement="bottomRight">
           <GlobalOutlined style={{ fontSize: 20, marginRight: 16, cursor: "pointer" }} />

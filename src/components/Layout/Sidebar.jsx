@@ -1,6 +1,10 @@
 import { Layout, Menu } from "antd";
 import { Link, useLocation } from "react-router-dom";
+import { useLayoutContext } from "../../context/LayoutContext";
 import {
+  ContactsOutlined,
+  CompassOutlined,
+  InfoCircleOutlined,
   HomeOutlined,
   FlagOutlined,
 } from "@ant-design/icons";
@@ -8,14 +12,21 @@ import {
 import styles from "./layout.module.scss";
 
 const { Sider } = Layout;
-
+ 
 const Sidebar = () => {
   const location = useLocation();
+  const { collapsed } = useLayoutContext();
 
   return (
-    <Sider className={styles.sidebar} width={220}>
-      <div className={styles.logo}>Admin Panel</div>
-
+    <Sider
+      className={styles.sidebar}
+       width={220}
+       collapsible
+       collapsed={collapsed}
+     >
+      <div className={styles.logo}></div>
+ 
+ 
       <Menu
         theme="dark"
         mode="inline"
@@ -33,12 +44,20 @@ const Sidebar = () => {
           },
           {
             key:"/contacts",
+            icon: <ContactsOutlined />,
             label: <Link to="/contacts">Contacts</Link>
           },
           {
             key:'/tour',
+            icon: <CompassOutlined />,
             label:<Link to="/tour">Tours</Link>
+          },
+          {
+            key:'/about',
+            icon: <InfoCircleOutlined />,
+            label:<Link to="/about">About</Link>
           }
+
         ]}
       />
     </Sider>
