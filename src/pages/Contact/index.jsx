@@ -2,12 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { Card, Table, Typography, message } from "antd";
 import { GetContacts } from "../../services/service";
+import { useLanguage } from "../../context/LanguageContext";
 
 const { Title } = Typography;
 
 const Contact = () => {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -31,7 +33,7 @@ const Contact = () => {
       key: "id",
     },
     {
-      title: "Telephone",
+      title: t.contact.phone,
       dataIndex: "telephone",
       key: "telephone",
     },

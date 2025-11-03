@@ -1,0 +1,13 @@
+{
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "countries": "Countries",
+    "contacts": "Contacts",
+    "tour": "Tours",
+    "about": "About"
+  },
+  "header": {
+    "language": "Language",
+    "theme": "Theme"
+  }
+}

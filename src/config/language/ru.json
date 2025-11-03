@@ -1,0 +1,13 @@
+{
+  "sidebar": {
+    "dashboard": "Панель управления",
+    "countries": "Страны",
+    "contacts": "Контакты",
+    "tour": "Туры",
+    "about": "О нас"
+  },
+  "header": {
+    "language": "Язык",
+    "theme": "Тема"
+  }
+}

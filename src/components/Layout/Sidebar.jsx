@@ -1,6 +1,7 @@
 import { Layout, Menu } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import { useLayoutContext } from "../../context/LayoutContext";
+import { useLanguage } from "../../context/LanguageContext";
 import {
   ContactsOutlined,
   CompassOutlined,
@@ -16,6 +17,7 @@ const { Sider } = Layout;
 const Sidebar = () => {
   const location = useLocation();
   const { collapsed } = useLayoutContext();
+  const { t } = useLanguage();
 
   return (
     <Sider
@@ -35,27 +37,27 @@ const Sidebar = () => {
           {
             key: "/",
             icon: <HomeOutlined />,
-            label: <Link to="/">Dashboard</Link>,
+            label: <Link to="/">{t.sidebar.dashboard}</Link>,
           },
           {
             key: "/countries",
             icon: <FlagOutlined />,
-            label: <Link to="/countries">Countries</Link>,
+            label: <Link to="/countries">{t.sidebar.countries}</Link>,
           },
           {
             key:"/contacts",
             icon: <ContactsOutlined />,
-            label: <Link to="/contacts">Contacts</Link>
+            label: <Link to="/contacts">{t.sidebar.contacts}</Link>
           },
           {
             key:'/tour',
             icon: <CompassOutlined />,
-            label:<Link to="/tour">Tours</Link>
+            label:<Link to="/tour">{t.sidebar.tour}</Link>
           },
           {
             key:'/about',
             icon: <InfoCircleOutlined />,
-            label:<Link to="/about">About</Link>
+            label:<Link to="/about">{t.sidebar.about}</Link>
           }
 
         ]}

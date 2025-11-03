@@ -1,0 +1,20 @@
+{
+  "sidebar": {
+    "dashboard": "İdarə paneli",
+    "countries": "Ölkələr",
+    "contacts": "Əlaqələr",
+    "tour": "Turlar",
+    "about": "Haqqında"
+  },
+  "header": {
+    "language": "Dil seçimi",
+    "theme": "Tema"
+  },
+  "contact": {
+    "name": "Ad",
+    "email": "E-poçt",
+    "message": "Mesaj",
+    "send": "Göndər",
+    "phone": "Telefon nömrəsi"
+  }
+}
