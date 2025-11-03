@@ -1,9 +1,11 @@
 .layout {
   height: 100vh;
+  background-color: #fff;
 }
 
 .sidebar {
   background-color: #001529 !important;
+  border-radius: 20px;
 }
 
 .logo {
@@ -62,9 +64,14 @@
     background: #141414 !important;
     border-bottom: 1px solid #333 !important;
   }
+  .layout {
+    background-color: #141414;
+
+  }
 
   .sidebar {
     background-color: #000c17 !important;
+    border-radius: 20px;
   }
 
   .content {
