@@ -3,6 +3,7 @@ import AppLayout from "../components/Layout/Layout";
 import Country from "../pages/Country/index";
 import Contact from "../pages/Contact/index";
 import Tour  from "../pages/Tour";
+import AboutTMS from "../pages/About";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path:"/tour",
         element:<Tour/>
+      },
+      {
+        path: '/about',
+        element:<AboutTMS/>
       }
 
     ],
