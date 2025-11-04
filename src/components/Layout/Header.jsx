@@ -51,11 +51,11 @@ const HeaderBar = () => {
           placement="bottomRight"
         >
           <GlobalOutlined
+            className={styles.languageIcon}
             style={{
               fontSize: 20,
               marginRight: 16,
-              cursor: "pointer",
-              color: "#fff",
+              cursor: "pointer",  
             }}
           />
         </Dropdown>

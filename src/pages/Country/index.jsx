@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { GetCountries } from "../../services/service";
 import { Table, Card, Typography } from "antd";
+import { useLanguage } from "../../context/LanguageContext";
 
 const { Title } = Typography;
 
 const Country = () => {
   const [countries, setCountries] = useState([]);
-
+  const { t } = useLanguage();
   useEffect(() => {
     GetCountries().then((data) => setCountries(data));
   }, []);
@@ -18,7 +19,7 @@ const Country = () => {
       key: "id",
     },
     {
-      title: "Country Name",
+      title: t.countries.countryName ,
       dataIndex: "name",
       key: "name",
     },
@@ -26,7 +27,7 @@ const Country = () => {
 
   return (
     <Card style={{ margin: 24, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
-      <Title level={3}>Countries</Title>
+      <Title level={3}>{t.countries.title}</Title>
       <Table
         dataSource={countries}
         columns={columns}
