@@ -81,6 +81,60 @@ const Tour = () => {
           img:'/.'
         },
         {
+          id: 1,
+          price: "$500",
+          startDate: "2025-11-30",
+          endDate: "2025-12-05",
+          from: { country: "Azerbaijan", city: "Baku" },
+          to: { country: "Turkey", city: "Istanbul" },
+          img:'/.'
+        },
+        {
+          id: 2,
+          price: "$700",
+          startDate: "2025-12-10",
+          endDate: "2025-12-20",
+          from: { country: "Azerbaijan", city: "Ganja" },
+          to: { country: "Russia", city: "Moscow" },
+          img:'/.'
+        },
+        {
+          id: 1,
+          price: "$500",
+          startDate: "2025-11-30",
+          endDate: "2025-12-05",
+          from: { country: "Azerbaijan", city: "Baku" },
+          to: { country: "Turkey", city: "Istanbul" },
+          img:'/.'
+        },
+        {
+          id: 2,
+          price: "$700",
+          startDate: "2025-12-10",
+          endDate: "2025-12-20",
+          from: { country: "Azerbaijan", city: "Ganja" },
+          to: { country: "Russia", city: "Moscow" },
+          img:'/.'
+        },
+        {
+          id: 1,
+          price: "$500",
+          startDate: "2025-11-30",
+          endDate: "2025-12-05",
+          from: { country: "Azerbaijan", city: "Baku" },
+          to: { country: "Turkey", city: "Istanbul" },
+          img:'/.'
+        },
+        {
+          id: 2,
+          price: "$700",
+          startDate: "2025-12-10",
+          endDate: "2025-12-20",
+          from: { country: "Azerbaijan", city: "Ganja" },
+          to: { country: "Russia", city: "Moscow" },
+          img:'/.'
+        },
+        {
           id: 3,
           price: "$450",
           startDate: "2026-01-05",

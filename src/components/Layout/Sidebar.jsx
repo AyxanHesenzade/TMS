@@ -9,12 +9,14 @@ import {
   HomeOutlined,
   FlagOutlined,
 } from "@ant-design/icons";
-
+import { useAuth } from "../../context/AuthContext";
 import styles from "./layout.module.scss";
 
 const { Sider } = Layout;
  
 const Sidebar = () => {
+
+  const { isLoggedIn } = useAuth();
   const location = useLocation();
   const { collapsed } = useLayoutContext();
   const { t } = useLanguage();
@@ -22,14 +24,13 @@ const Sidebar = () => {
   return (
     <Sider
       className={styles.sidebar}
-       width={188}
-       collapsible
-       collapsed={collapsed}
-       trigger={null}
-     >
+      width={188}
+      collapsible
+      collapsed={collapsed}
+      trigger={null}
+    >
       <div className={styles.logo}></div>
- 
- 
+
       <Menu
         theme="dark"
         mode="inline"
@@ -40,7 +41,8 @@ const Sidebar = () => {
             icon: <HomeOutlined />,
             label: <Link to="/">{t.sidebar.dashboard}</Link>,
           },
-          {
+          // ✅ Yalnız login olunanda görünəcək
+          isLoggedIn && {
             key: "/countries",
             icon: <FlagOutlined />,
             label: <Link to="/countries">{t.sidebar.countries}</Link>,
@@ -60,8 +62,7 @@ const Sidebar = () => {
             icon: <InfoCircleOutlined />,
             label:<Link to="/about">{t.sidebar.about}</Link>
           }
-
-        ]}
+        ].filter(Boolean)} // ✅ false dəyərləri silmək üçün
       />
     </Sider>
   );

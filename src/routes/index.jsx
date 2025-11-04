@@ -4,6 +4,7 @@ import Country from "../pages/Country/index";
 import Contact from "../pages/Contact/index";
 import Tour  from "../pages/Tour";
 import AboutTMS from "../pages/About";
+import Admin from "../pages/Admin/index"
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,11 @@ const router = createBrowserRouter([
 
     ],
   },
+  {
+    path: "/admin",
+    element: <Admin />,
+  }
+
 ]);
 
 export default router;
