@@ -10,6 +10,14 @@
     "language": "Язык",
     "theme": "Тема"
   },
+  "adminLoginModal": {
+  "title": "Вход",
+  "emailLabel": "Электронная почта",
+  "paswordLabel": "Пароль",
+  "button": "Войти",
+  "emailMessage": "Введите электронную почту!",
+  "paswordMessage": "Введите пароль!"
+  },
   "footer":{
     "title":"© 2025 - Все Права Защищены"
   },

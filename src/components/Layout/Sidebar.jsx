@@ -35,6 +35,11 @@ const Sidebar = () => {
       label: <Link to="/">{t.sidebar.dashboard}</Link>,
     },
     {
+      key: "/countries",
+      icon: <ContactsOutlined />,
+      label: <Link to="/countries">{t.sidebar.countries}</Link>,
+    },
+    {
       key: "/contacts",
       icon: <ContactsOutlined />,
       label: <Link to="/contacts">{t.sidebar.contacts}</Link>,

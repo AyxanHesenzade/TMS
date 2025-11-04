@@ -10,6 +10,14 @@
     "language": "Language",
     "theme": "Theme"
   },
+  "adminLoginModal": {
+  "title": "Login",
+  "emailLabel": "Email",
+  "paswordLabel": "Password",
+  "button": "Sign in",
+  "emailMessage": "Please enter your email!",
+  "paswordMessage": "Please enter your password!"
+  },
   "footer":{
     "title":"© 2025 - All Rights Reserved"
   },

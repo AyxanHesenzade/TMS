@@ -9,7 +9,6 @@ import {
   Form,
 } from "antd";
 
-import { useState } from "react";
 import {
   GlobalOutlined,
   MoonOutlined,
@@ -19,6 +18,7 @@ import {
   MenuUnfoldOutlined,
 } from "@ant-design/icons";
 
+import { useState } from "react";
 import { useTheme } from "../../context/ThemeProvider";
 import { useLayoutContext } from "../../context/LayoutContext";
 import { useLanguage } from "../../context/LanguageContext";
@@ -36,6 +36,7 @@ const HeaderBar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const { user, login, logout } = useAuth();
+  const { t } = useLanguage();
 
   const languageItems = [
     { key: "az", label: "🇦🇿 Azərbaycan" },
@@ -131,7 +132,7 @@ const HeaderBar = () => {
       </Header>
 
       <Modal
-        title="Qeydiyyat"
+        title={t.adminLoginModal.title}
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -140,18 +141,18 @@ const HeaderBar = () => {
         <Form form={form} name="authForm" layout="vertical" onFinish={handleOk}>
           <Form.Item
             name="email"
-            label="Email"
-            rules={[{ required: true, message: "Email daxil edin!" }]}
+            label={t.adminLoginModal.emailLabel}
+            rules={[{ required: true, message: t.adminLoginModal.emailMessage }]}
           >
-            <Input placeholder="Email" />
+            <Input placeholder={t.adminLoginModal.emailLabel} />
           </Form.Item>
 
           <Form.Item
             name="password"
-            label="Şifrə"
-            rules={[{ required: true, message: "Şifrə daxil edin!" }]}
+            label={t.adminLoginModal.paswordLabel}
+            rules={[{ required: true, message: t.adminLoginModal.paswordMessage }]}
           >
-            <Input.Password placeholder="Şifrə" />
+            <Input.Password placeholder={t.adminLoginModal.paswordLabel} />
           </Form.Item>
 
           <Button
@@ -160,7 +161,7 @@ const HeaderBar = () => {
             block
             style={{ marginBottom: 8 }}
           >
-            Daxil ol
+            {t.adminLoginModal.button}
           </Button>
         </Form>
       </Modal>
