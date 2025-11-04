@@ -10,11 +10,33 @@
     "language": "Dil seçimi",
     "theme": "Tema"
   },
+  "footer":{
+    "title":"© 2025 - Bütün Hüquqlar Qorunur"
+  },
+  "countries": {
+  "title": "Ölkələr",
+  "countryName": "Ölkə adı"
+  },
   "contact": {
-    "name": "Ad",
+    "title": "Kontaklar",
+    "phone": "Telefon",
     "email": "E-poçt",
-    "message": "Mesaj",
-    "send": "Göndər",
-    "phone": "Telefon nömrəsi"
+    "about": "Haqqında"
+  },
+  "tours": {
+  "title": "Turlar",
+  "start": "Başlanğıc",
+  "end": "Son",
+  "from": "Haradan",
+  "to": "Haraya",
+  "price": "Qiymət"
+  },
+  "aboutTms": {
+  "title": "TMS haqqında",
+  "connect":"TMS ilə əlaqə saxla",
+  "content": "TMS unudulmaz səyahətlər və mükəmməl turizm təcrübələri yaratmağa sadiq olan bir səyahət şirkətidir. Missiyamız səyahət edən insanlara dünyanı asanlıqla, rahatlıqla və həyəcanla kəşf etməyə kömək etməkdir. TMS hər bir turu müştərilərimizin unikal gözləntilərinə uyğun şəkildə diqqətlə hazırlayır. Tarixi şəhərləri kəşf etməyi və ya təbiətin heyranedici mənzərələrindən zövq almağı xəyal edirsinizsə, biz sizin üçün ideal səyahət həllərini təqdim edirik. Peşəkar və ehtiraslı komandamız başlanğıcdan sona qədər ən yüksək səviyyəli xidməti təmin edir. TMS üçün səyahət — ömür boyu unudulmayacaq xatirələr yaratmaq deməkdir. Biz detallı planlaşdırılmış, rahat və təhlükəsiz turlar təklif edirik. Tur paketlərimiz fərdi şəxslər, ailələr və qruplar üçün uyğundur. TMS daima yeni istiqamətləri araşdıraraq səyahətçilərə təzə və fərqli macəralar təqdim edir. Müştəri məmnuniyyəti və etibarı bizim fəaliyyətimizin əsasını təşkil edir. Biz səyahətinizin hər mərhələsində — bron etmədən tutmuş evinizə təhlükəsiz qayıdana qədər — tam dəstək göstəririk. Təcrübəli bələdçilərimiz sizə yeni mədəniyyətləri kəşf etməyə və mənalı təcrübələr yaşamağa kömək edir. TMS müasir və innovativ texnologiyalardan istifadə edərək bron etmə və ünsiyyəti sürətli və rahat edir. Qiymət şəffaflığına böyük önəm veririk — heç bir gizli ödəniş və ya gözlənilməz xərc yoxdur. Komandamız səyahətlə bağlı bütün sual və ehtiyaclarınızda sizə kömək etməyə hər zaman hazırdır. Müxtəlif ölkələrə və gözəl turistik məkanlara təşkil olunan turlar vasitəsilə TMS sizə dünyanın qapılarını açır. Biz insanları yeni yerləri kəşf etməyə, öyrənməyə və macəraları inamla yaşamağa ruhlandırırıq. TMS hər bir səyahətçini salamlayır və hamı üçün rahatlığı təmin edir. TMS ilə hər bir istiqamət gözəl bir hekayəyə çevrilir. Bu gün TMS-ə qoşulun və növbəti böyük macəranız başlasın! ✈️🌍"
   }
+
+
+  
 }

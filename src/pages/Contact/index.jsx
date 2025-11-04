@@ -38,12 +38,12 @@ const Contact = () => {
       key: "telephone",
     },
     {
-      title: "Email",
+      title: t.contact.email,
       dataIndex: "mail",
       key: "mail",
     },
     {
-      title: "About",
+      title: t.contact.about,
       dataIndex: "about",
       key: "about",
     },
@@ -58,7 +58,7 @@ const Contact = () => {
         }}
       >
         <Title level={3} style={{ textAlign: "center" }}>
-          Contacts
+          {t.contact.title}
         </Title>
         <Table
           dataSource={contacts}

@@ -22,9 +22,10 @@ const Sidebar = () => {
   return (
     <Sider
       className={styles.sidebar}
-       width={220}
+       width={188}
        collapsible
        collapsed={collapsed}
+       trigger={null}
      >
       <div className={styles.logo}></div>
  
