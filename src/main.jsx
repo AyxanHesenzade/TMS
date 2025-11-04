@@ -6,12 +6,15 @@ import { ThemeProvider } from "./context/ThemeProvider";
 import { LayoutProvider } from "./context/LayoutContext.jsx";
 import { LanguageProvider } from "./context/LanguageContext.jsx";
 
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <LayoutProvider>
       <ThemeProvider>
         <LanguageProvider>
+  
           <App />
+
         </LanguageProvider>
       </ThemeProvider>
     </LayoutProvider>
