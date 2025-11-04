@@ -1,10 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import AppLayout from "../components/Layout/Layout";
-import Country from "../pages/Country/index";
-import Contact from "../pages/Contact/index";
-import Tour  from "../pages/Tour";
+import Country from "../pages/Country";
+import Contact from "../pages/Contact";
+import Tour from "../pages/Tour";
 import AboutTMS from "../pages/About";
-import Admin from "../pages/Admin/index"
+import ProtectedRoute from "../components/Layout/ProtectedRoute";
+import AdminAbout from "../pages/Admin/pages/About";
 
 const router = createBrowserRouter([
   {
@@ -16,29 +17,35 @@ const router = createBrowserRouter([
         element: <div>Dashboard</div>,
       },
       {
-        path: "/countries",
+        path: "countries",
         element: <Country />,
       },
       {
-        path: "/contacts",
-        element:<Contact/>
+        path: "contacts",
+        element: <Contact />,
       },
       {
-        path:"/tour",
-        element:<Tour/>
+        path: "tour",
+        element: <Tour />,
       },
       {
-        path: '/about',
-        element:<AboutTMS/>
-      }
-
+        path: "about",
+        element: <AboutTMS />,
+      },
     ],
   },
+
   {
     path: "/admin",
-    element: <Admin />,
-  }
-
+    element: (
+      <ProtectedRoute>
+        <AppLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      { path: "about", element: <AdminAbout /> },
+    ],
+  },
 ]);
 
 export default router;

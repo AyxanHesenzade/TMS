@@ -2,6 +2,8 @@ import { Layout, Menu } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import { useLayoutContext } from "../../context/LayoutContext";
 import { useLanguage } from "../../context/LanguageContext";
+import { useAuth } from "../../context/AuthContext";
+
 import {
   ContactsOutlined,
   CompassOutlined,
@@ -9,17 +11,47 @@ import {
   HomeOutlined,
   FlagOutlined,
 } from "@ant-design/icons";
-import { useAuth } from "../../context/AuthContext";
 import styles from "./layout.module.scss";
 
 const { Sider } = Layout;
- 
-const Sidebar = () => {
 
-  const { isLoggedIn } = useAuth();
+const Sidebar = () => {
   const location = useLocation();
   const { collapsed } = useLayoutContext();
   const { t } = useLanguage();
+  const { user } = useAuth();
+  const adminMenu = [
+    {
+      key: "/admin/about",
+      icon: <FlagOutlined />,
+      label: <Link to="/admin/about">Admin About</Link>,
+    },
+  ];
+
+  const userMenu = [
+    {
+      key: "/",
+      icon: <HomeOutlined />,
+      label: <Link to="/">{t.sidebar.dashboard}</Link>,
+    },
+    {
+      key: "/contacts",
+      icon: <ContactsOutlined />,
+      label: <Link to="/contacts">{t.sidebar.contacts}</Link>,
+    },
+    {
+      key: "/tour",
+      icon: <CompassOutlined />,
+      label: <Link to="/tour">{t.sidebar.tour}</Link>,
+    },
+    {
+      key: "/about",
+      icon: <InfoCircleOutlined />,
+      label: <Link to="/about">{t.sidebar.about}</Link>,
+    },
+  ];
+
+  const menuItems = user?.role === "admin" ? adminMenu : userMenu;
 
   return (
     <Sider
@@ -35,34 +67,7 @@ const Sidebar = () => {
         theme="dark"
         mode="inline"
         selectedKeys={[location.pathname]}
-        items={[
-          {
-            key: "/",
-            icon: <HomeOutlined />,
-            label: <Link to="/">{t.sidebar.dashboard}</Link>,
-          },
-          // ✅ Yalnız login olunanda görünəcək
-          isLoggedIn && {
-            key: "/countries",
-            icon: <FlagOutlined />,
-            label: <Link to="/countries">{t.sidebar.countries}</Link>,
-          },
-          {
-            key:"/contacts",
-            icon: <ContactsOutlined />,
-            label: <Link to="/contacts">{t.sidebar.contacts}</Link>
-          },
-          {
-            key:'/tour',
-            icon: <CompassOutlined />,
-            label:<Link to="/tour">{t.sidebar.tour}</Link>
-          },
-          {
-            key:'/about',
-            icon: <InfoCircleOutlined />,
-            label:<Link to="/about">{t.sidebar.about}</Link>
-          }
-        ].filter(Boolean)} // ✅ false dəyərləri silmək üçün
+        items={menuItems}
       />
     </Sider>
   );
