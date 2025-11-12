@@ -27,9 +27,9 @@ const Sidebar = () => {
       label: <Link to="/admin/">{t.sidebar.dashboard}</Link>,
     },
     {
-      key: "/admin/contries",
+      key: "/admin/countries",
       icon: <FlagOutlined  />,
-      label: <Link to="/admin/contries">{t.sidebar.countries}</Link>,
+      label: <Link to="/admin/countries">{t.sidebar.countries}</Link>,
     },
     {
       key: "/admin/contact",
