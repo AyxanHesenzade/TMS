@@ -10,6 +10,14 @@
     "language": "Dil seçimi",
     "theme": "Tema"
   },
+  "adminLoginModal": {
+    "title": "Qeydiyyat",
+    "emailLabel": "Email",
+    "paswordLabel": "Şifrə",
+    "button": "Daxil ol",
+    "emailMessage": "Email daxil edin!",
+    "paswordMessage": "Şifrə daxil edin!"
+  },
   "footer":{
     "title":"© 2025 - Bütün Hüquqlar Qorunur"
   },

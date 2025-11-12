@@ -6,6 +6,10 @@ import Tour from "../pages/Tour";
 import AboutTMS from "../pages/About";
 import ProtectedRoute from "../components/Layout/ProtectedRoute";
 import AdminAbout from "../pages/Admin/pages/About";
+import AdminContact from "../pages/Admin/pages/Contact";
+import AdminCountry from "../pages/Admin/pages/Country";
+import AdminTour from "../pages/Admin/pages/Tour";
+
 
 const router = createBrowserRouter([
   {
@@ -44,6 +48,9 @@ const router = createBrowserRouter([
     ),
     children: [
       { path: "about", element: <AdminAbout /> },
+      { path: "contries", element: <AdminCountry /> },
+      { path: "contact", element: <AdminContact /> },
+      { path: "tour", element: <AdminTour /> },
     ],
   },
 ]);

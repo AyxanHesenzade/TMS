@@ -22,10 +22,30 @@ const Sidebar = () => {
   const { user } = useAuth();
   const adminMenu = [
     {
-      key: "/admin/about",
-      icon: <FlagOutlined />,
-      label: <Link to="/admin/about">Admin About</Link>,
+      key: "/admin/",
+      icon: <HomeOutlined />,
+      label: <Link to="/admin/">{t.sidebar.dashboard}</Link>,
     },
+    {
+      key: "/admin/contries",
+      icon: <FlagOutlined  />,
+      label: <Link to="/admin/contries">{t.sidebar.countries}</Link>,
+    },
+    {
+      key: "/admin/contact",
+      icon: <ContactsOutlined />,
+      label: <Link to="/admin/contact">{t.sidebar.contacts}</Link>,
+    },
+    {
+      key: "/admin/tour",
+      icon: <CompassOutlined />,
+      label: <Link to="/admin/tour">{t.sidebar.tour}</Link>,
+    }, 
+    {
+      key: "/admin/about",
+      icon: <InfoCircleOutlined />,
+      label: <Link to="/admin/about">Admin {t.sidebar.about}</Link>,
+    }, 
   ];
 
   const userMenu = [
@@ -33,6 +53,11 @@ const Sidebar = () => {
       key: "/",
       icon: <HomeOutlined />,
       label: <Link to="/">{t.sidebar.dashboard}</Link>,
+    },
+    {
+      key: "/countries",
+      icon: <ContactsOutlined />,
+      label: <Link to="/countries">{t.sidebar.countries}</Link>,
     },
     {
       key: "/contacts",
