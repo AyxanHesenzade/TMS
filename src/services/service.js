@@ -11,6 +11,7 @@ export const GetCountries = async () => {
     return [];
   }
 };
+
 export const GetContacts = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/api/Contact`);
@@ -21,3 +22,25 @@ export const GetContacts = async () => {
   }
 };
 
+
+export const putCountries = async (data) => {
+  try {
+    const response = await axios.put(`${BASE_URL}/api/Country/${id}`, data);
+    console.log("PUT uğurlu oldu:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("PUT zamanı xəta baş verdi:", error);
+    throw error;
+  }
+};
+
+export const deleteCountries = async (id) => {
+  try{
+    const res = await axios.delete(`${BASE_URL}/api/Country/${id}`);
+    console.log("PUT uğurlu oldu:", response.data);
+    return res.data;
+  } catch (error){
+    console.error("Delete zamanı xəta baş verdi:", error);
+    throw error;
+  }
+};
