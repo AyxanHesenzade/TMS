@@ -12,17 +12,16 @@ export const GetCountries = async () => {
   }
 };
 
+
 export const GetContacts = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/api/Contact`);
-    return response.data; // array qaytaracaq
+    return response.data; 
   } catch (error) {
     console.error("Error fetching contacts:", error);
     throw error;
   }
 };
-
-
 
 
 export const deleteCountries = async (id, token) => {
@@ -58,3 +57,15 @@ export const putCountries = async (id, name, token) => {
 };
 
 
+export const postCountries = async (data, token) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/api/Country`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    console.log("POST uğurlu oldu:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("POST zamanı xəta baş verdi:", error);
+    throw error;
+  }
+};
