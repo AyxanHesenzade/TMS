@@ -48,7 +48,7 @@ const router = createBrowserRouter([
     ),
     children: [
       { path: "about", element: <AdminAbout /> },
-      { path: "contries", element: <AdminCountry /> },
+      { path: "countries", element: <AdminCountry /> },
       { path: "contact", element: <AdminContact /> },
       { path: "tour", element: <AdminTour /> },
     ],

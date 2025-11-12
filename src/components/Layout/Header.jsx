@@ -7,8 +7,8 @@ import {
   Input,
   Button,
   Form,
+  message,
 } from "antd";
-
 import {
   GlobalOutlined,
   MoonOutlined,
@@ -17,7 +17,6 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from "@ant-design/icons";
-
 import { useState } from "react";
 import { useTheme } from "../../context/ThemeProvider";
 import { useLayoutContext } from "../../context/LayoutContext";
@@ -34,9 +33,11 @@ const HeaderBar = () => {
   const { lang, changeLanguage } = useLanguage();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false); 
   const [form] = Form.useForm();
   const { user, login, logout } = useAuth();
   const { t } = useLanguage();
+  const [messageApi, contextHolder] = message.useMessage()
 
   const languageItems = [
     { key: "az", label: "🇦🇿 Azərbaycan" },
@@ -48,13 +49,23 @@ const HeaderBar = () => {
     changeLanguage(key);
   };
 
-  const handleOk = () => {
-    form.validateFields().then((values) => {
-      login(values.email);
+  const handleOk = async () => {
+    try {
+      const values = await form.validateFields();
+      setLoading(true); 
+
+      await login(values.email, values.password);
+
+      messageApi.success("Uğurla daxil oldunuz! 🎉");
       setIsModalOpen(false);
       form.resetFields();
-      navigate("/admin");
-    });
+      navigate("/admin/");
+    } catch (error) {
+      messageApi.error("Email və ya şifrə yanlışdır!");
+      console.error("Login xətası:", error);
+    } finally {
+      setLoading(false); 
+    }
   };
 
   const handleCancel = () => {
@@ -65,6 +76,7 @@ const HeaderBar = () => {
   return (
     <>
       <Header className={styles.header}>
+        {contextHolder}
         <div className={styles.headerLeft}>
           {collapsed ? (
             <MenuUnfoldOutlined
@@ -131,18 +143,25 @@ const HeaderBar = () => {
         </div>
       </Header>
 
+      {/* 🔹 Login Modal */}
       <Modal
         title={t.adminLoginModal.title}
         open={isModalOpen}
-        onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
       >
-        <Form form={form} name="authForm" layout="vertical" onFinish={handleOk}>
+        <Form
+          form={form}
+          name="authForm"
+          layout="vertical"
+          onFinish={handleOk}
+        >
           <Form.Item
             name="email"
             label={t.adminLoginModal.emailLabel}
-            rules={[{ required: true, message: t.adminLoginModal.emailMessage }]}
+            rules={[
+              { required: true, message: t.adminLoginModal.emailMessage },
+            ]}
           >
             <Input placeholder={t.adminLoginModal.emailLabel} />
           </Form.Item>
@@ -150,7 +169,9 @@ const HeaderBar = () => {
           <Form.Item
             name="password"
             label={t.adminLoginModal.paswordLabel}
-            rules={[{ required: true, message: t.adminLoginModal.paswordMessage }]}
+            rules={[
+              { required: true, message: t.adminLoginModal.paswordMessage },
+            ]}
           >
             <Input.Password placeholder={t.adminLoginModal.paswordLabel} />
           </Form.Item>
@@ -159,7 +180,7 @@ const HeaderBar = () => {
             type="primary"
             htmlType="submit"
             block
-            style={{ marginBottom: 8 }}
+            loading={loading} 
           >
             {t.adminLoginModal.button}
           </Button>
