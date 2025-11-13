@@ -6,10 +6,13 @@
     "tour": "Tours",
     "about": "About"
   },
+
   "header": {
     "language": "Language",
-    "theme": "Theme"
+    "theme": "Theme",
+    "exit":"Exit"
   },
+
   "adminLoginModal": {
   "title": "Login",
   "emailLabel": "Email",
@@ -18,19 +21,48 @@
   "emailMessage": "Please enter your email!",
   "paswordMessage": "Please enter your password!"
   },
+
   "footer":{
     "title":"© 2025 - All Rights Reserved"
   },
+
   "countries": {
     "title":"Countries",
-    "countryName":"Country Name"
+    "countryName":"Country Name",
+    "action":"Action",
+    "buttonEdit":"Edit",
+    "buttonDelete":"Delete",
+    "modalInput": "Country name",
+    "editModalTitle": "Edit country name",
+
+    "editModalOK": "Save",
+    "addModalTitle": "Add country",
+    "addModalOK": "Add",
+    "modalCANCEL": "Cancel",
+    "deleteConfirmTitle": "Are you sure you want to delete?",
+    "deleteConfirmOK": "Yes",
+    "deleteConfirmCANCEL": "No",  
+    "messages": {
+      "getApiError": "Error occurred while fetching countries",
+      "tokenError": "Token not found. Please login again",
+      "emptyInputError": "Country name cannot be empty",
+      "postApiMessage": "Added successfully",
+      "postApiError": "Error occurred while adding",
+      "putApiMessage": "Updated successfully",
+      "putApiError": "Error occurred while updating",
+      "deleteApiMessage": "Country deleted",
+      "deleteApiError": "Error occurred while deleting"
+    }
+
   },
+
   "contact": {
   "title": "Contacts",
   "phone": "Phone",
   "email": "Email",
   "about": "About"
   },
+
   "tours": {
     "title":"Tours",
     "start":"Start",
@@ -39,6 +71,7 @@
     "to":"To",
     "price":"Price"
   },
+
   "aboutTms":{
     "title": "About TMS",
     "connect":"Connect with TMS",

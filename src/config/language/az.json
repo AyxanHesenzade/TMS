@@ -6,10 +6,13 @@
     "tour": "Turlar",
     "about": "Haqqında"
   },
+
   "header": {
     "language": "Dil seçimi",
-    "theme": "Tema"
+    "theme": "Tema",
+     "exit":"Çıxış"
   },
+
   "adminLoginModal": {
     "title": "Qeydiyyat",
     "emailLabel": "Email",
@@ -18,19 +21,47 @@
     "emailMessage": "Email daxil edin!",
     "paswordMessage": "Şifrə daxil edin!"
   },
+
   "footer":{
     "title":"© 2025 - Bütün Hüquqlar Qorunur"
   },
+
   "countries": {
   "title": "Ölkələr",
-  "countryName": "Ölkə adı"
+  "action": "Əməliyyatlar",
+  "countryName": "Ölkə adı",
+  "buttonEdit":"redaktə et",
+  "buttonDelete":"Sil",
+  "modalInput": "Ölkə adı",
+  "editModalTitle":"Ölkə adını dəyiş",
+
+  "editModalOK":"Yadda saxla",
+  "addModalTitle":"Ölkə əlavə et",
+  "addModalOK":"Əlavə et",
+  "modalCANCEL":"Ləğv et",
+  "deleteConfirmTitle":"Silmək istədiyinizə əminsiniz?",
+  "deleteConfirmOK":"Bəli",
+  "deleteConfirmCANCEL":"Xeyir",
+  "messages":{
+    "getApiError":"Ölkələr gətirilərkən xəta baş verdi",
+    "tokenError":"Token mövcud deyil. Yenidən login olun",
+    "emptyInputError":"Ölkə adı boş ola bilməz",
+    "postApiMessage":"əlavə olundu",
+    "postApiError": "Əlavə etmə zamanı xəta baş verdi",
+    "putApiMessage": "yeniləndi",
+    "putApiError":"Yeniləmə zamanı xəta baş verdi",
+    "deleteApiMessage": "Ölkə silindi",
+    "deleteApiError": "Silinmə zamanı xəta baş verdi"
+   }
   },
+
   "contact": {
     "title": "Kontaklar",
     "phone": "Telefon",
     "email": "E-poçt",
     "about": "Haqqında"
   },
+
   "tours": {
   "title": "Turlar",
   "start": "Başlanğıc",
@@ -39,6 +70,7 @@
   "to": "Haraya",
   "price": "Qiymət"
   },
+
   "aboutTms": {
   "title": "TMS haqqında",
   "connect":"TMS ilə əlaqə saxla",

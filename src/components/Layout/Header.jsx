@@ -124,7 +124,7 @@ const HeaderBar = () => {
                 items: [
                   {
                     key: "logout",
-                    label: "Çıxış",
+                    label: t.header.exit,
                     onClick: logout,
                   },
                 ],

@@ -25,7 +25,7 @@ const AdminCountry = () => {
       const data = await GetCountries();
       setCountries(data);
     } catch (err) {
-      messageApi.error("Ölkələr gətirilərkən xəta baş verdi");
+      messageApi.error(t.countries.messages.getApiError);
     }
   };
 
@@ -36,62 +36,62 @@ const AdminCountry = () => {
 
   const handleAddCountry = async () => {
     if (!token) {
-      messageApi.error("Token mövcud deyil. Yenidən login olun");
+      messageApi.error(t.countries.messages.tokenError);
       return;
     }
 
     if (!newName.trim()) {
-      messageApi.error("Ölkə adı boş ola bilməz");
+      messageApi.error(t.countries.messages.emptyInputError);
       return;
     }
 
     try {
       await postCountries({ name: newName }, token);
-      messageApi.success(`"${newName}" əlavə olundu`);
+      messageApi.success(`"${newName}" ${t.countries.messages.postApiMessage}`);
       setIsAddModalOpen(false);
       setNewName("");
       fetchCountries();
     } catch (err) {
-      messageApi.error(err.response?.data?.message || "Əlavə etmə zamanı xəta baş verdi");
+      messageApi.error(err.response?.data?.message || t.countries.messages.postApiError);
     }
   };
 
 
   const handleUpdateName = async () => {
     if (!token) {
-      messageApi.error("Token mövcud deyil. Yenidən login olun");
+      messageApi.error(t.countries.messages.tokenError);
       return;
     }
 
     if (!newName.trim()) {
-      messageApi.error("Ölkə adı boş ola bilməz");
+      messageApi.error(t.countries.messages.emptyInputError);
       return;
     }
 
     try {
-      await putCountries(editingCountry.id, { name: newName }, token);
-      messageApi.success(`"${editingCountry.name}" yeniləndi`);
+      await putCountries(editingCountry.id, newName, token);
+      messageApi.success(` ${t.countries.messages.putApiMessage} `);
       setIsEditModalOpen(false);
       setEditingCountry(null);
       fetchCountries();
     } catch (err) {
-      messageApi.error(err.response?.data?.message || "Yeniləmə zamanı xəta baş verdi");
+      messageApi.error(err.response?.data?.message || t.countries.messages.putApiError);
     }
   };
 
 
   const handleDelete = async (id) => {
     if (!token) {
-      messageApi.error("Token mövcud deyil. Yenidən login olun");
+      messageApi.error(t.countries.messages.tokenError);
       return;
     }
 
     try {
       await deleteCountries(id, token);
-      messageApi.success("Ölkə silindi");
+      messageApi.success(t.countries.messages.deleteApiMessage);
       fetchCountries();
     } catch (err) {
-      messageApi.error(err.response?.data?.message || "Silinmə zamanı xəta baş verdi");
+      messageApi.error(err.response?.data?.message || t.countries.messages.deleteApiError);
     }
   };
 
@@ -102,32 +102,28 @@ const AdminCountry = () => {
   };
 
   const columns = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+
     {
       title: t.countries.countryName,
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Action",
+      title: t.countries.action ,
       key: "action",
       render: (_, record) => (
         <div style={{ display: "flex", gap: "10px" }}>
           <Button type="primary" onClick={() => openEditModal(record)}>
-            Edit
+          {t.countries.buttonEdit}
           </Button>
 
           <Popconfirm
-            title="Silmək istədiyinizə əminsiniz?"
+            title={t.countries.deleteConfirmTitle}
             onConfirm={() => handleDelete(record.id)}
-            okText="Bəli"
-            cancelText="Xeyr"
+            okText={t.countries.deleteConfirmOK}
+            cancelText={t.countries.deleteConfirmCANCEL}
           >
-            <Button danger>Delete</Button>
+            <Button danger>{t.countries.buttonDelete}</Button>
           </Popconfirm>
         </div>
       ),
@@ -164,33 +160,33 @@ const AdminCountry = () => {
 
       {/* === Ölkə əlavə Modal === */}
       <Modal
-        title="Yeni ölkə əlavə et"
+        title={t.countries.addModalTitle}
         open={isAddModalOpen}
         onOk={handleAddCountry}
         onCancel={() => setIsAddModalOpen(false)}
-        okText="Əlavə et"
-        cancelText="Ləğv et"
+        okText={t.countries.addModalOK}
+        cancelText={t.countries.modalCANCEL}
       >
         <Input
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
-          placeholder="Ölkə adı"
+          placeholder={t.countries.modalInput}
         />
       </Modal>
 
       {/* === Ölkə yenilə Modal === */}
       <Modal
-        title="Ölkə adını dəyiş"
+        title={t.countries.editModalTitle}
         open={isEditModalOpen}
         onOk={handleUpdateName}
         onCancel={() => setIsEditModalOpen(false)}
-        okText="Yadda saxla"
-        cancelText="Ləğv et"
+        okText={t.countries.editModalOK}
+        cancelText={t.countries.modalCANCEL}
       >
         <Input
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
-          placeholder="Ölkə adı"
+          placeholder={t.countries.modalInput}
         />
       </Modal>
     </>
