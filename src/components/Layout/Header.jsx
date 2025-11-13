@@ -56,12 +56,12 @@ const HeaderBar = () => {
 
       await login(values.email, values.password);
 
-      messageApi.success("Uğurla daxil oldunuz! 🎉");
+      messageApi.success(t.header.loginMessage);
       setIsModalOpen(false);
       form.resetFields();
       navigate("/admin/");
     } catch (error) {
-      messageApi.error("Email və ya şifrə yanlışdır!");
+      messageApi.error(t.header.loginError);
       console.error("Login xətası:", error);
     } finally {
       setLoading(false); 

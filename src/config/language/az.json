@@ -10,7 +10,9 @@
   "header": {
     "language": "Dil seçimi",
     "theme": "Tema",
-     "exit":"Çıxış"
+    "exit":"Çıxış",
+    "loginMessage":"Uğurla daxil oldunuz!",
+    "loginError":"Email və ya şifrə yanlışdır!"
   },
 
   "adminLoginModal": {

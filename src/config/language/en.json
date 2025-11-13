@@ -10,7 +10,10 @@
   "header": {
     "language": "Language",
     "theme": "Theme",
-    "exit":"Exit"
+    "exit":"Exit",
+    "loginMessage": "Logged in successfully!",
+    "loginError": "Email or password is incorrect!"
+
   },
 
   "adminLoginModal": {
