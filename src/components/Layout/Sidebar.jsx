@@ -56,7 +56,7 @@ const Sidebar = () => {
     },
     {
       key: "/countries",
-      icon: <ContactsOutlined />,
+      icon: <FlagOutlined/>,
       label: <Link to="/countries">{t.sidebar.countries}</Link>,
     },
     {
