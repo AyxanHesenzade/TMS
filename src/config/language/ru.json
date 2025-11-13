@@ -8,7 +8,8 @@
   },
   "header": {
     "language": "Язык",
-    "theme": "Тема"
+    "theme": "Тема",
+    "exit":"Выход"
   },
   "adminLoginModal": {
   "title": "Вход",
@@ -23,7 +24,34 @@
   },
   "countries": {
   "title": "Страны",
-  "countryName": "Название страны"
+  "action": "Действие",
+  "countryName": "Название страны",
+  "buttonEdit": "Редактировать",
+  "buttonDelete": "Удалить",
+  "modalInput": "Название страны",
+  "editModalTitle": "Изменить название страны",
+
+
+  "editModalOK": "Сохранить",
+  "addModalTitle": "Добавить страну",
+  "addModalOK": "Добавить",
+  "modalCANCEL": "Отмена",
+  "deleteConfirmTitle": "Вы уверены, что хотите удалить?",
+  "deleteConfirmOK": "Да",
+  "deleteConfirmCANCEL": "Нет",
+  "messages": {
+      "getApiError": "Ошибка при получении стран",
+      "tokenError": "Токен не найден. Пожалуйста, войдите снова",
+      "emptyInputError": "Название страны не может быть пустым",
+      "postApiMessage": "Успешно добавлено",
+      "postApiError": "Ошибка при добавлении",
+      "putApiMessage": "Успешно обновлено",
+      "putApiError": "Ошибка при обновлении",
+      "deleteApiMessage": "Страна удалена",
+      "deleteApiError": "Ошибка при удалении"
+  }
+
+
   },
   "contact": {
     "title": "Контакты",

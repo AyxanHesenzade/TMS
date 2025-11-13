@@ -12,10 +12,11 @@ export const GetCountries = async () => {
   }
 };
 
+
 export const GetContacts = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/api/Contact`);
-    return response.data; // array qaytaracaq
+    return response.data; 
   } catch (error) {
     console.error("Error fetching contacts:", error);
     throw error;
@@ -23,24 +24,48 @@ export const GetContacts = async () => {
 };
 
 
-export const putCountries = async (data) => {
+export const deleteCountries = async (id, token) => {
   try {
-    const response = await axios.put(`${BASE_URL}/api/Country/${id}`, data);
-    console.log("PUT uğurlu oldu:", response.data);
-    return response.data;
+    const res = await axios.delete(`${BASE_URL}/api/Country/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    });
+    console.log("Delete uğurlu oldu:", res.data);
+    return res.data;
   } catch (error) {
-    console.error("PUT zamanı xəta baş verdi:", error);
+    console.error("Delete zamanı xəta baş verdi:", error);
     throw error;
   }
 };
 
-export const deleteCountries = async (id) => {
-  try{
-    const res = await axios.delete(`${BASE_URL}/api/Country/${id}`);
-    console.log("PUT uğurlu oldu:", response.data);
-    return res.data;
-  } catch (error){
-    console.error("Delete zamanı xəta baş verdi:", error);
+
+export const putCountries = async (id, name, token) => {
+  try {
+    const response = await axios.put(
+      `${BASE_URL}/api/Country/${id}`,
+      { name },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Update zamanı xəta baş verdi:", error);
+    throw error;
+  }
+};
+
+
+export const postCountries = async (data, token) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/api/Country`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    console.log("POST uğurlu oldu:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("POST zamanı xəta baş verdi:", error);
     throw error;
   }
 };

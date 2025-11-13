@@ -28,11 +28,6 @@ const Contact = () => {
 
   const columns = [
     {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
-    {
       title: t.contact.phone,
       dataIndex: "telephone",
       key: "telephone",

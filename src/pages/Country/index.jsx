@@ -14,11 +14,6 @@ const Country = () => {
 
   const columns = [
     {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
-    {
       title: t.countries.countryName ,
       dataIndex: "name",
       key: "name",
