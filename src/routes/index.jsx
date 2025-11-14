@@ -9,6 +9,8 @@ import AdminAbout from "../pages/Admin/pages/About";
 import AdminContact from "../pages/Admin/pages/Contact";
 import AdminCountry from "../pages/Admin/pages/Country";
 import AdminTour from "../pages/Admin/pages/Tour";
+import AdminCity from "../pages/Admin/pages/City";
+import UserCity from "../pages/City";
 
 
 const router = createBrowserRouter([
@@ -23,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "countries",
         element: <Country />,
+      },
+      {
+        path: "cities",
+        element: <UserCity />,
       },
       {
         path: "contacts",
@@ -49,8 +55,9 @@ const router = createBrowserRouter([
     children: [
       { path: "about", element: <AdminAbout /> },
       { path: "countries", element: <AdminCountry /> },
+      { path: "cities", element: <AdminCity /> },
       { path: "contact", element: <AdminContact /> },
-      { path: "tour", element: <AdminTour /> },
+      { path: "tour", element: <AdminTour /> }
     ],
   },
 ]);

@@ -10,6 +10,7 @@ import {
   InfoCircleOutlined,
   HomeOutlined,
   FlagOutlined,
+  EnvironmentOutlined 
 } from "@ant-design/icons";
 import styles from "./layout.module.scss";
 
@@ -30,6 +31,11 @@ const Sidebar = () => {
       key: "/admin/countries",
       icon: <FlagOutlined  />,
       label: <Link to="/admin/countries">{t.sidebar.countries}</Link>,
+    },
+    {
+      key: "/admin/cities",
+      icon: <EnvironmentOutlined />,
+      label: <Link to="/admin/cities">City</Link>,
     },
     {
       key: "/admin/contact",
@@ -58,6 +64,11 @@ const Sidebar = () => {
       key: "/countries",
       icon: <FlagOutlined/>,
       label: <Link to="/countries">{t.sidebar.countries}</Link>,
+    },
+    {
+      key: "/cities",
+      icon: <EnvironmentOutlined />,
+      label: <Link to="/cities">City</Link>,
     },
     {
       key: "/contacts",

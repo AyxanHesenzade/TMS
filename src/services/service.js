@@ -69,3 +69,44 @@ export const postCountries = async (data, token) => {
     throw error;
   }
 };
+
+
+
+// ========== CITY API ==========
+export const GetCities = async (token) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/City`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("City məlumatı alınarkən xəta:", error);
+    return [];
+  }
+};
+
+export const PostCity = async (data, token) => {
+  return axios.post(`${BASE_URL}/api/City`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
+};
+
+export const PutCity = async (id, data, token) => {
+  return axios.put(`${BASE_URL}/api/City/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
+};
+
+export const DeleteCity = async (id, token) => {
+  return axios.delete(`${BASE_URL}/api/City/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
+};
