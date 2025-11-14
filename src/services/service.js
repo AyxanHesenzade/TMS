@@ -110,3 +110,53 @@ export const DeleteCity = async (id, token) => {
     }
   });
 };
+
+
+
+// Tour Səhifəsi
+
+export const getTours = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/Tour`);
+    return response.data;
+  } catch (error) {
+    console.error("Tour məlumatları alınarkən xəta baş verdi:", error);
+    return [];
+  }
+};
+
+
+
+export const deleteTour = async (id) => {
+  return await axios.delete(`${BASE_URL}/Tour/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
+
+export const createTour = async (formData) => {
+  return await axios.post(`${BASE_URL}/Tour`, formData, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
+
+export const createTourWithImages = async (formData) => {
+  return await axios.post(`${BASE_URL}/Tour/create-with-images`, formData, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
+
+export const getTourById = async (id) => {
+  return (
+    await axios.get(`${BASE_URL}/Tour/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+  ).data;
+};

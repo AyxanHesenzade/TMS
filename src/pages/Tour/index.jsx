@@ -1,182 +1,77 @@
 // src/pages/Tour/index.jsx
-import React from "react";
-import { Card, Row, Col, Typography } from "antd";
+import React, { useEffect, useState } from "react";
+import { Card, Row, Col, Typography, Spin, message } from "antd";
 import { useLanguage } from "../../context/LanguageContext";
+import { getTours } from "../../services/service";
 
 const { Title, Text } = Typography;
 
 const Tour = () => {
-    const { t } = useLanguage();
-    const fakeTours = [
-        {
-          id: 1,
-          price: "$500",
-          startDate: "2025-11-30",
-          endDate: "2025-12-05",
-          from: { country: "Azerbaijan", city: "Baku" },
-          to: { country: "Turkey", city: "Istanbul" },
-          img:'/.'
-        },
-        {
-          id: 2,
-          price: "$700",
-          startDate: "2025-12-10",
-          endDate: "2025-12-20",
-          from: { country: "Azerbaijan", city: "Ganja" },
-          to: { country: "Russia", city: "Moscow" },
-          img:'/.'
-        },
-        {
-          id: 3,
-          price: "$450",
-          startDate: "2026-01-05",
-          endDate: "2026-01-12",
-          from: { country: "Azerbaijan", city: "Sumqayit" },
-          to: { country: "Georgia", city: "Tbilisi" },
-          img:'/.'
-        },
-        {
-          id: 1,
-          price: "$500",
-          startDate: "2025-11-30",
-          endDate: "2025-12-05",
-          from: { country: "Azerbaijan", city: "Baku" },
-          to: { country: "Turkey", city: "Istanbul" },
-          img:'/.'
-        },
-        {
-          id: 2,
-          price: "$700",
-          startDate: "2025-12-10",
-          endDate: "2025-12-20",
-          from: { country: "Azerbaijan", city: "Ganja" },
-          to: { country: "Russia", city: "Moscow" },
-          img:'/.'
-        },
-        {
-          id: 3,
-          price: "$450",
-          startDate: "2026-01-05",
-          endDate: "2026-01-12",
-          from: { country: "Azerbaijan", city: "Sumqayit" },
-          to: { country: "Georgia", city: "Tbilisi" },
-          img:'/.'
-        },
-        {
-          id: 1,
-          price: "$500",
-          startDate: "2025-11-30",
-          endDate: "2025-12-05",
-          from: { country: "Azerbaijan", city: "Baku" },
-          to: { country: "Turkey", city: "Istanbul" },
-          img:'/.'
-        },
-        {
-          id: 2,
-          price: "$700",
-          startDate: "2025-12-10",
-          endDate: "2025-12-20",
-          from: { country: "Azerbaijan", city: "Ganja" },
-          to: { country: "Russia", city: "Moscow" },
-          img:'/.'
-        },
-        {
-          id: 1,
-          price: "$500",
-          startDate: "2025-11-30",
-          endDate: "2025-12-05",
-          from: { country: "Azerbaijan", city: "Baku" },
-          to: { country: "Turkey", city: "Istanbul" },
-          img:'/.'
-        },
-        {
-          id: 2,
-          price: "$700",
-          startDate: "2025-12-10",
-          endDate: "2025-12-20",
-          from: { country: "Azerbaijan", city: "Ganja" },
-          to: { country: "Russia", city: "Moscow" },
-          img:'/.'
-        },
-        {
-          id: 1,
-          price: "$500",
-          startDate: "2025-11-30",
-          endDate: "2025-12-05",
-          from: { country: "Azerbaijan", city: "Baku" },
-          to: { country: "Turkey", city: "Istanbul" },
-          img:'/.'
-        },
-        {
-          id: 2,
-          price: "$700",
-          startDate: "2025-12-10",
-          endDate: "2025-12-20",
-          from: { country: "Azerbaijan", city: "Ganja" },
-          to: { country: "Russia", city: "Moscow" },
-          img:'/.'
-        },
-        {
-          id: 1,
-          price: "$500",
-          startDate: "2025-11-30",
-          endDate: "2025-12-05",
-          from: { country: "Azerbaijan", city: "Baku" },
-          to: { country: "Turkey", city: "Istanbul" },
-          img:'/.'
-        },
-        {
-          id: 2,
-          price: "$700",
-          startDate: "2025-12-10",
-          endDate: "2025-12-20",
-          from: { country: "Azerbaijan", city: "Ganja" },
-          to: { country: "Russia", city: "Moscow" },
-          img:'/.'
-        },
-        {
-          id: 3,
-          price: "$450",
-          startDate: "2026-01-05",
-          endDate: "2026-01-12",
-          from: { country: "Azerbaijan", city: "Sumqayit" },
-          to: { country: "Georgia", city: "Tbilisi" },
-          img:'/.'
-        },
-      ];
+  const { t } = useLanguage();
+  const [tours, setTours] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchTours = async () => {
+      setLoading(true);
+      try {
+        const data = await getTours();
+        setTours(data);
+      } catch (error) {
+        message.error("Tour məlumatları alınarkən xəta baş verdi");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTours();
+  }, []);
+
+  if (loading) return <Spin style={{ display: "block", margin: "100px auto" }} size="large" />;
+
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
       <Title level={2} style={{ textAlign: "center", marginBottom: 24 }}>
-       {t.tours.title}
+        {t.tours.title}
       </Title>
       <Row gutter={[24, 24]} justify="center">
-        {fakeTours.map((tour) => (
+        {tours.map((tour) => (
           <Col key={tour.id} xs={24} sm={12} md={8}>
             <Card
-              title={tour.img}
+              cover={
+                tour.images && tour.images.length > 0 ? (
+                  <img
+                    alt={tour.name}
+                    src={tour.images[0].imagePath}
+                    style={{ height: 200, objectFit: "cover" }}
+                  />
+                ) : null
+              }
               bordered={false}
-              style={{
-                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-              }}
+              style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}
             >
               <Text>
-                <b>{t.tours.start}:</b> {tour.startDate}
+                <b>{t.tours.name}:</b> {tour.name}
               </Text>
               <br />
               <Text>
-                <b>{t.tours.end}:</b> {tour.endDate}
+                <b>{t.tours.about}:</b> {tour.about}
               </Text>
               <br />
               <Text>
-                <b>{t.tours.from}:</b> {tour.from.country}, {tour.from.city}
+                <b>{t.tours.country}:</b> {tour.country?.name}
               </Text>
               <br />
               <Text>
-                <b>{t.tours.to}:</b> {tour.to.country}, {tour.to.city}
-                <br/>
+                <b>{t.tours.city}:</b> {tour.city?.name}
               </Text>
+              <br />
               <Text>
-                <b>{t.tours.price}:</b> <b>{tour.price}</b>
+                <b>{t.tours.type}:</b> {tour.type?.name}
+              </Text>
+              <br />
+              <Text>
+                <b>{t.tours.price}:</b> ${tour.price}
               </Text>
             </Card>
           </Col>
