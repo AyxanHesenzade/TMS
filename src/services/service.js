@@ -113,50 +113,47 @@ export const DeleteCity = async (id, token) => {
 
 
 
-// Tour Səhifəsi
-
+// 1. GET /api/Tour
 export const getTours = async () => {
-  try {
-    const response = await axios.get(`${BASE_URL}/api/Tour`);
-    return response.data;
-  } catch (error) {
-    console.error("Tour məlumatları alınarkən xəta baş verdi:", error);
-    return [];
-  }
-};
-
-
-
-export const deleteTour = async (id) => {
-  return await axios.delete(`${BASE_URL}/Tour/${id}`, {
+  const res = await axios.get(`${BASE_URL}/api/Tour`, {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${TOKEN}`,
     },
   });
+  return res.data;
 };
 
-export const createTour = async (formData) => {
-  return await axios.post(`${BASE_URL}/Tour`, formData, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
-};
-
+// 2. POST /api/Tour/create-with-images (multipart/form-data)
 export const createTourWithImages = async (formData) => {
-  return await axios.post(`${BASE_URL}/Tour/create-with-images`, formData, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
+  const res = await axios.post(
+    `${BASE_URL}/api/Tour/create-with-images`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  return res.data;
 };
 
-export const getTourById = async (id) => {
-  return (
-    await axios.get(`${BASE_URL}/Tour/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-  ).data;
+// 3. DELETE /api/Tour/{id}
+export const deleteTour = async (id) => {
+  const res = await axios.delete(`${BASE_URL}/api/Tour/${id}`, {
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+    },
+  });
+  return res.data;
+};
+
+// 4. GET /api/Tour/with-offer/{id}
+export const getTourWithOffer = async (id) => {
+  const res = await axios.get(`${BASE_URL}/api/Tour/with-offer/${id}`, {
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+    },
+  });
+  return res.data;
 };
