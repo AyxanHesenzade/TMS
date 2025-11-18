@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Card, Typography, message, Spin } from "antd";
+import { Table, Card, Typography, message, Space } from "antd";
 import { GetCities, GetCountries } from "../../services/service";
 
 const { Title } = Typography;
@@ -12,13 +12,19 @@ export default function UserCity() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [cityData, countryData] = await Promise.all([GetCities(), GetCountries()]);
+      const [cityData, countryData] = await Promise.all([
+        GetCities(),
+        GetCountries(),
+      ]);
+
       setCountries(countryData);
 
-   
-      const mergedCities = cityData.map(city => {
-        const country = countryData.find(c => c.id === city.countyId);
-        return { ...city, countryName: country?.name || "—" };
+      const mergedCities = cityData.map((city) => {
+        const country = countryData.find((c) => c.id === city.countyId);
+        return {
+          ...city,
+          countryName: country?.name || "—",
+        };
       });
 
       setCities(mergedCities);
@@ -48,18 +54,34 @@ export default function UserCity() {
   ];
 
   return (
-    <Card style={{ margin: "20px" }}>
-      <Title level={2}>Şəhərlər</Title>
-      {loading ? (
-        <Spin size="large" style={{ display: "block", margin: "50px auto" }} />
-      ) : (
+    <>
+      <Card
+        style={{
+          margin: 24,
+          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+        }}
+        title={
+          <Space
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
+            <Title level={3} style={{ margin: 0 }}>
+              Şəhərlər
+            </Title>
+          </Space>
+        }
+      >
         <Table
           columns={columns}
           dataSource={cities}
           rowKey="id"
+          loading={loading}
           pagination={{ pageSize: 10 }}
         />
-      )}
-    </Card>
+      </Card>
+    </>
   );
 }

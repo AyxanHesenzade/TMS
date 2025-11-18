@@ -2,6 +2,11 @@ import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
+
+const token = localStorage.getItem("token");
+
+
+
 export const GetCountries = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/api/Country`);
@@ -13,15 +18,6 @@ export const GetCountries = async () => {
 };
 
 
-export const GetContacts = async () => {
-  try {
-    const response = await axios.get(`${BASE_URL}/api/Contact`);
-    return response.data; 
-  } catch (error) {
-    console.error("Error fetching contacts:", error);
-    throw error;
-  }
-};
 
 
 export const deleteCountries = async (id, token) => {
@@ -70,6 +66,37 @@ export const postCountries = async (data, token) => {
   }
 };
 
+// ===================== CONTACT APILERI ===================== //
+
+export const GetContacts = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/Contact`);
+    return response.data;
+  } catch (error) {
+    console.error("Contact məlumatı alınarkən xəta baş verdi:", error);
+    return [];
+  }
+};
+
+export const postContact = async (data, token) => {
+  return axios.post(`${BASE_URL}/api/Contact`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+export const putContact = async (id, data, token) => {
+  return axios.put(`${BASE_URL}/api/Contact/${id}`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+export const deleteContact = async (id, token) => {
+  return axios.delete(`${BASE_URL}/api/Contact/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+
 
 
 // ========== CITY API ==========
@@ -113,47 +140,54 @@ export const DeleteCity = async (id, token) => {
 
 
 
-// 1. GET /api/Tour
-export const getTours = async () => {
-  const res = await axios.get(`${BASE_URL}/api/Tour`, {
-    headers: {
-      Authorization: `Bearer ${TOKEN}`,
-    },
-  });
-  return res.data;
+// Tours
+
+export const getTours = async (token) => {
+  try {
+    const res = await axios.get(`${BASE_URL}/api/Tour`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.data;
+  } catch (error) {
+    console.error("Tour məlumatı alınarkən xəta baş verdi:", error);
+    throw error;
+  }
 };
 
-// 2. POST /api/Tour/create-with-images (multipart/form-data)
-export const createTourWithImages = async (formData) => {
-  const res = await axios.post(
-    `${BASE_URL}/api/Tour/create-with-images`,
-    formData,
-    {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  );
-  return res.data;
+export const createTourWithImages = async (formData, token) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/api/Tour/create-with-images`, formData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.data;
+  } catch (error) {
+    console.error("Tour yaratmaq mümkün olmadı:", error);
+    throw error;
+  }
 };
 
 // 3. DELETE /api/Tour/{id}
-export const deleteTour = async (id) => {
-  const res = await axios.delete(`${BASE_URL}/api/Tour/${id}`, {
-    headers: {
-      Authorization: `Bearer ${TOKEN}`,
-    },
-  });
-  return res.data;
+export const deleteTour = async (id, token) => {
+  try {
+    const res = await axios.delete(`${BASE_URL}/api/Tour/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.data;
+  } catch (error) {
+    console.error("Tour silinərkən xəta baş verdi:", error);
+    throw error;
+  }
 };
 
 // 4. GET /api/Tour/with-offer/{id}
-export const getTourWithOffer = async (id) => {
-  const res = await axios.get(`${BASE_URL}/api/Tour/with-offer/${id}`, {
-    headers: {
-      Authorization: `Bearer ${TOKEN}`,
-    },
-  });
-  return res.data;
+export const getTourWithOffer = async (id, token) => {
+  try {
+    const res = await axios.get(`${BASE_URL}/api/Tour/with-offer/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.data;
+  } catch (error) {
+    console.error(`Tour id=${id} ilə təklif məlumatı alınarkən xəta baş verdi:`, error);
+    throw error;
+  }
 };

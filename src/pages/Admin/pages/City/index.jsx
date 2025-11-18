@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Card, Typography, Button, Modal, Input, Select, message, Popconfirm } from "antd";
+import { Table, Card, Typography, Button, Modal, Input, Select, message, Popconfirm, Space } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { GetCities, PostCity, PutCity, DeleteCity, GetCountries } from "../../../../services/service";
 import { useAuth } from "../../../../context/AuthContext";
@@ -10,10 +10,12 @@ const { Option } = Select;
 export default function AdminCity() {
   const [cities, setCities] = useState([]);
   const [countries, setCountries] = useState([]);
-  const [loading, setLoading] = useState(false);
   const { token } = useAuth();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingCity, setEditingCity] = useState(null);
 
   const [cityName, setCityName] = useState("");
@@ -21,17 +23,11 @@ export default function AdminCity() {
 
   const fetchData = async () => {
     try {
-      setLoading(true);
       const [cityRes, countryRes] = await Promise.all([GetCities(token), GetCountries()]);
-      console.log("Cities:", cityRes);
-      console.log("Countries:", countryRes);
       setCities(cityRes);
       setCountries(countryRes);
     } catch (err) {
-      console.error(err);
-      message.error("Məlumatlar alınarkən xəta baş verdi");
-    } finally {
-      setLoading(false);
+      messageApi.error("Məlumatlar alınarkən xəta baş verdi");
     }
   };
 
@@ -39,106 +35,128 @@ export default function AdminCity() {
     fetchData();
   }, []);
 
-  const openModal = (city = null) => {
-    setEditingCity(city);
-    setCityName(city ? city.name : "");
-    setCountyId(city ? city.countyId : null);
-    setIsModalOpen(true);
-  };
+  // ================= ADD ====================
+  const handleAddCity = async () => {
+    if (!cityName.trim() || !countyId) {
+      return messageApi.error("Zəhmət olmasa bütün xanaları doldurun");
+    }
 
-  const handleOk = async () => {
-    if (!cityName || !countyId) return message.warning("Bütün xanaları doldurun!");
-  
     try {
-      if (editingCity) {
-        await PutCity(editingCity.id, { name: cityName, countyId }, token);
-        message.success("Şəhər yeniləndi");
-      } else {
-        await PostCity({ name: cityName, countyId }, token);
-        message.success("Şəhər əlavə olundu");
-      }
-      setIsModalOpen(false);
+      await PostCity({ name: cityName, countyId }, token);
+      messageApi.success("Yeni şəhər əlavə olundu");
+      setIsAddModalOpen(false);
+      setCityName("");
+      setCountyId(null);
       fetchData();
     } catch (err) {
-      console.error(err);
-      message.error(err?.response?.data?.message || "Əməliyyat zamanı xəta baş verdi");
+      messageApi.error(err?.response?.data?.message || "Əlavə edilərkən xəta baş verdi");
     }
   };
-  
+
+  // ================= UPDATE ====================
+  const handleUpdateCity = async () => {
+    if (!cityName.trim() || !countyId) {
+      return messageApi.error("Xanalar boş ola bilməz!");
+    }
+
+    try {
+      await PutCity(editingCity.id, { name: cityName, countyId }, token);
+      messageApi.success("Şəhər yeniləndi");
+      setIsEditModalOpen(false);
+      setEditingCity(null);
+      fetchData();
+    } catch (err) {
+      messageApi.error(err?.response?.data?.message || "Yenilənmə zamanı xəta baş verdi");
+    }
+  };
+
+  // ================= DELETE ====================
   const handleDelete = async (id) => {
     try {
       await DeleteCity(id, token);
-      message.success("Şəhər silindi");
+      messageApi.success("Şəhər silindi");
       fetchData();
     } catch (err) {
-      console.error(err);
-      message.error(err?.response?.data?.message || "Silmə zamanı xəta baş verdi");
+      messageApi.error(err?.response?.data?.message || "Silmə zamanı xəta baş verdi");
     }
   };
-  
+
+  // ================= TABLE COLUMNS ====================
   const columns = [
     {
       title: "Şəhər adı",
       dataIndex: "name",
-      key: "name",
+      key: "name"
     },
     {
       title: "Ölkə",
       key: "county",
       render: (_, record) => {
-        const country = countries.find(c => c.id === record.countyId);
-        return country?.name || "—";
-      },
+        const found = countries.find((c) => c.id === record.countyId);
+        return found?.name || "—";
+      }
     },
     {
       title: "Əməliyyatlar",
       key: "actions",
       render: (_, record) => (
-        <>
-        <Button 
-          type="primary" 
-          onClick={() => openModal(record)}
-          style={{ marginRight: 10 }} 
-        >
-          Yenilə
-        </Button>
-      
-        <Popconfirm
-          title="Silmək istədiyinizə əminsiniz?"
-          onConfirm={() => handleDelete(record.id)}
-          okText="Bəli"
-          cancelText="Xeyr"
-        >
-          <Button danger>
-            Sil
+        <div style={{ display: "flex", gap: "10px" }}>
+          <Button
+            type="primary"
+            onClick={() => {
+              setEditingCity(record);
+              setCityName(record.name);
+              setCountyId(record.countyId);
+              setIsEditModalOpen(true);
+            }}
+          >
+            Yenilə
           </Button>
-        </Popconfirm>
-      </>
-      
+
+          <Popconfirm
+            title="Silmək istədiyinizə əminsiniz?"
+            onConfirm={() => handleDelete(record.id)}
+            okText="Bəli"
+            cancelText="Xeyr"
+          >
+            <Button danger>Sil</Button>
+          </Popconfirm>
+        </div>
       )
     }
   ];
 
   return (
-    <Card style={{ margin: "20px" }}>
-      <Title level={2}>City Management</Title>
+    <>
+      {contextHolder}
 
-      <Button
-        type="primary"
-        icon={<PlusOutlined />}
-        style={{ marginBottom: 20 }}
-        onClick={() => openModal()}
+      <Card
+        style={{ margin: 24, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
+        title={
+          <Space style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+            <Title level={3} style={{ margin: 0 }}>City Management</Title>
+
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<PlusOutlined />}
+              size="large"
+              onClick={() => setIsAddModalOpen(true)}
+            />
+          </Space>
+        }
       >
-        Şəhər əlavə et
-      </Button>
+        <Table dataSource={cities} columns={columns} rowKey="id" />
+      </Card>
 
-      <Table columns={columns} dataSource={cities} rowKey="id" loading={loading} />
-
+      {/* ================= ADD MODAL ================= */}
       <Modal
-        open={isModalOpen}
-        title={editingCity ? "Şəhəri yenilə" : "Şəhər əlavə et"}
-        onOk={handleOk}
-        onCancel={() => setIsModalOpen(false)}
+        open={isAddModalOpen}
+        title="Şəhər əlavə et"
+        onOk={handleAddCity}
+        onCancel={() => setIsAddModalOpen(false)}
+        okText="Əlavə et"
+        cancelText="İmtina"
       >
         <Input
           placeholder="Şəhər adı"
@@ -158,6 +176,34 @@ export default function AdminCity() {
           ))}
         </Select>
       </Modal>
-    </Card>
+
+      {/* ================= EDIT MODAL ================= */}
+      <Modal
+        open={isEditModalOpen}
+        title="Şəhəri yenilə"
+        onOk={handleUpdateCity}
+        onCancel={() => setIsEditModalOpen(false)}
+        okText="Yenilə"
+        cancelText="İmtina"
+      >
+        <Input
+          placeholder="Şəhər adı"
+          value={cityName}
+          onChange={(e) => setCityName(e.target.value)}
+          style={{ marginBottom: 10 }}
+        />
+
+        <Select
+          placeholder="Ölkə seçin"
+          value={countyId}
+          onChange={(v) => setCountyId(v)}
+          style={{ width: "100%" }}
+        >
+          {countries.map((c) => (
+            <Option key={c.id} value={c.id}>{c.name}</Option>
+          ))}
+        </Select>
+      </Modal>
+    </>
   );
 }

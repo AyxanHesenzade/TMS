@@ -21,6 +21,7 @@ import {
 } from "../../../../services/service";
 
 const { Text } = Typography;
+const token = localStorage.getItem("token");
 
 const Tours = () => {
   const [tours, setTours] = useState([]);
@@ -35,12 +36,22 @@ const Tours = () => {
   const [typeId, setTypeId] = useState("");
   const [price, setPrice] = useState("");
   const [files, setFiles] = useState([]);
+  const [newTour, setNewTour] = useState({
+    name: "",
+    about: "",
+    countryId: "",
+    cityId: "",
+    typeId: "",
+    price: "",
+    images: []
+  });
+
 
   // ================== GET ALL TOURS ==================
   const loadTours = async () => {
     setLoading(true);
     try {
-      const data = await getTours();
+      const data = await getTours(token);
       setTours(data);
     } catch (err) {
       message.error("Tour məlumatlarını almaqda xəta oldu");
@@ -49,6 +60,7 @@ const Tours = () => {
     }
   };
 
+
   useEffect(() => {
     loadTours();
   }, []);
@@ -56,7 +68,7 @@ const Tours = () => {
   // ================== DELETE TOUR ==================
   const handleDelete = async (id) => {
     try {
-      await deleteTour(id);
+      await deleteTour(id, token);
       message.success("Tour silindi");
       loadTours();
     } catch (err) {
@@ -64,39 +76,39 @@ const Tours = () => {
     }
   };
 
+
   // ================== CREATE TOUR (MODAL) ==================
   const handleCreate = async () => {
+    if (!newTour.name || !newTour.about || !newTour.cityId || !newTour.typeId || !newTour.price) {
+      message.error("Zəhmət olmasa bütün xanaları doldurun");
+      return;
+    }
+
     const formData = new FormData();
 
-    formData.append("name", name);
-    formData.append("about", about);
-    formData.append("countryId", countryId);
-    formData.append("cityId", cityId);
-    formData.append("typeId", typeId);
-    formData.append("price", price);
+    formData.append("name", newTour.name);
+    formData.append("about", newTour.about);
+    formData.append("countryId", Number(newTour.countryId));
+    formData.append("cityId", Number(newTour.cityId));
+    formData.append("typeId", Number(newTour.typeId));
+    formData.append("price", Number(newTour.price));
 
-    files.forEach((file) => {
-      formData.append("files", file.originFileObj);
-    });
+    // Şəkillər
+    if (newTour.images && newTour.images.length > 0) {
+      newTour.images.forEach((file) => {
+        formData.append("images", file.originFileObj);
+      });
+    }
 
     try {
-      await createTourWithImages(formData);
-      message.success("Tour yaradıldı");
+      await createTourWithImages(formData, token);
+      message.success("Tour uğurla yaradıldı!");
 
-      setOpenModal(false); // modal bağlanır
-      loadTours(); // siyahı yenilənir
-
-      // formu təmizlə
-      setName("");
-      setAbout("");
-      setCountryId("");
-      setCityId("");
-      setTypeId("");
-      setPrice("");
-      setFiles([]);
-
-    } catch (err) {
-      message.error("Tour yaratmaq mümkün olmadı");
+      setOpenModal(false);
+      loadTours();
+    } catch (error) {
+      console.error(error);
+      message.error("Tour yaratmaq mümkün olmadı!");
     }
   };
 
@@ -122,57 +134,64 @@ const Tours = () => {
         cancelText="Bağla"
       >
         <Input
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="mb-2"
+          placeholder="Tour adı"
+          onChange={(e) =>
+            setNewTour({ ...newTour, name: e.target.value })
+          }
         />
 
-        <Input
-          placeholder="About"
-          value={about}
-          onChange={(e) => setAbout(e.target.value)}
-          className="mb-2"
+        <Input.TextArea
+          placeholder="Haqqında"
+          rows={3}
+          onChange={(e) =>
+            setNewTour({ ...newTour, about: e.target.value })
+          }
         />
 
         <Input
           placeholder="Country ID"
-          value={countryId}
-          onChange={(e) => setCountryId(e.target.value)}
-          className="mb-2"
+          type="number"
+          onChange={(e) =>
+            setNewTour({ ...newTour, countryId: e.target.value })
+          }
         />
 
         <Input
           placeholder="City ID"
-          value={cityId}
-          onChange={(e) => setCityId(e.target.value)}
-          className="mb-2"
+          type="number"
+          onChange={(e) =>
+            setNewTour({ ...newTour, cityId: e.target.value })
+          }
         />
 
         <Input
           placeholder="Type ID"
-          value={typeId}
-          onChange={(e) => setTypeId(e.target.value)}
-          className="mb-2"
+          type="number"
+          onChange={(e) =>
+            setNewTour({ ...newTour, typeId: e.target.value })
+          }
         />
 
-        <InputNumber
-          placeholder="Price"
-          value={price}
-          onChange={(value) => setPrice(value)}
-          style={{ width: "100%" }}
-          className="mb-2"
+        <Input
+          placeholder="Qiymət"
+          type="number"
+          onChange={(e) =>
+            setNewTour({ ...newTour, price: e.target.value })
+          }
         />
+
 
         <Upload
-          multiple
+          listType="picture"
           beforeUpload={() => false}
-          fileList={files}
-          onChange={(e) => setFiles(e.fileList)}
+          multiple
+          onChange={({ fileList }) => {
+            setNewTour({ ...newTour, images: fileList });
+          }}
         >
-          <Button>Şəkilləri seç</Button>
+          <Button>Şəkil seç</Button>
         </Upload>
-          <Button onClick={()=>handleCreate()}></Button>
+
       </Modal>
 
       {/* ================== SHOW TOURS ================== */}
@@ -200,7 +219,7 @@ const Tours = () => {
                   </Button>,
                 ]}
               >
-              
+
                 <Text><b>Name:</b> {tour.name}</Text> <br />
                 <Text><b>About:</b> {tour.about}</Text> <br />
                 <Text><b>Country:</b> {tour.country?.name}</Text> <br />
