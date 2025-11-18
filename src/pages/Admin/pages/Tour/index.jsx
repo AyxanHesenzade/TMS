@@ -76,36 +76,29 @@ const Tours = () => {
 
   // ================== CREATE TOUR (MODAL) ==================
   const handleCreate = async () => {
-    if (!newTour.name || !newTour.about || !newTour.countryId || !newTour.cityId || !newTour.typeId || !newTour.price) {
-      message.error("Zəhmət olmasa bütün xanaları doldurun");
-      return;
-    }
-
     const formData = new FormData();
     formData.append("name", newTour.name);
     formData.append("about", newTour.about);
     formData.append("countryId", Number(newTour.countryId));
     formData.append("cityId", Number(newTour.cityId));
-    formData.append("tourTypeId", Number(newTour.typeId));
+    formData.append("typeId", Number(newTour.typeId)); // DƏYİŞDİ
     formData.append("price", Number(newTour.price));
-
-    if (newTour.images && newTour.images.length > 0) {
-      newTour.images.forEach((file) => {
-        formData.append("images", file.originFileObj);
-      });
-    }
-
+  
+    newTour.images.forEach((file) => {
+      formData.append("files", file.originFileObj); // DƏYİŞDİ
+    });
+  
     try {
-      await createTourWithImages(formData, token); // Şəkil ilə POST
+      await createTourWithImages(formData, token);
       message.success("Tour uğurla yaradıldı!");
       setOpenModal(false);
-      setNewTour({ name: "", about: "", countryId: null, cityId: null, typeId: null, price: "", images: [] });
       loadTours();
-    } catch (error) {
-      console.error(error);
-      message.error("Tour yaratmaq mümkün olmadı!");
+    } catch (err) {
+      console.error(err);
+      message.error("Tour yaratmaq alınmadı");
     }
   };
+  
 
   return (
     <div className="p-8">
