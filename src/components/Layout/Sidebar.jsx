@@ -52,6 +52,7 @@ const Sidebar = () => {
       icon: <InfoCircleOutlined />,
       label: <Link to="/admin/about">Admin {t.sidebar.about}</Link>,
     }, 
+    
   ];
 
   const userMenu = [

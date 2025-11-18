@@ -1,4 +1,3 @@
-
 import { useLanguage } from "../../../../context/LanguageContext";
 import React, { useEffect, useState } from "react";
 import {
@@ -9,18 +8,17 @@ import {
   Spin,
   message,
   Button,
-  Upload,
   Input,
   InputNumber,
   Modal,
+  Select,
+  Upload,
 } from "antd";
-import {
-  getTours,
-  deleteTour,
-  createTourWithImages,
-} from "../../../../services/service";
+import { getTours, deleteTour, createTourWithImages } from "../../../../services/service";
+import { GetCountries, GetCities } from "../../../../services/service";
 
 const { Text } = Typography;
+const { Option } = Select;
 const token = localStorage.getItem("token");
 
 const Tours = () => {
@@ -28,24 +26,23 @@ const Tours = () => {
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
-  // Create form states
-  const [name, setName] = useState("");
-  const [about, setAbout] = useState("");
-  const [countryId, setCountryId] = useState("");
-  const [cityId, setCityId] = useState("");
-  const [typeId, setTypeId] = useState("");
-  const [price, setPrice] = useState("");
-  const [files, setFiles] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [types, setTypes] = useState([
+    { id: 1, name: "Adventure" },
+    { id: 2, name: "Relax" },
+    { id: 3, name: "Cultural" },
+  ]);
+
   const [newTour, setNewTour] = useState({
     name: "",
     about: "",
-    countryId: "",
-    cityId: "",
-    typeId: "",
+    countryId: null,
+    cityId: null,
+    typeId: null,
     price: "",
-    images: []
+    images: [],
   });
-
 
   // ================== GET ALL TOURS ==================
   const loadTours = async () => {
@@ -60,9 +57,10 @@ const Tours = () => {
     }
   };
 
-
   useEffect(() => {
     loadTours();
+    GetCountries().then((data) => setCountries(data));
+    GetCities(token).then((data) => setCities(data));
   }, []);
 
   // ================== DELETE TOUR ==================
@@ -76,24 +74,21 @@ const Tours = () => {
     }
   };
 
-
   // ================== CREATE TOUR (MODAL) ==================
   const handleCreate = async () => {
-    if (!newTour.name || !newTour.about || !newTour.cityId || !newTour.typeId || !newTour.price) {
+    if (!newTour.name || !newTour.about || !newTour.countryId || !newTour.cityId || !newTour.typeId || !newTour.price) {
       message.error("Zəhmət olmasa bütün xanaları doldurun");
       return;
     }
 
     const formData = new FormData();
-
     formData.append("name", newTour.name);
     formData.append("about", newTour.about);
     formData.append("countryId", Number(newTour.countryId));
     formData.append("cityId", Number(newTour.cityId));
-    formData.append("typeId", Number(newTour.typeId));
+    formData.append("tourTypeId", Number(newTour.typeId));
     formData.append("price", Number(newTour.price));
 
-    // Şəkillər
     if (newTour.images && newTour.images.length > 0) {
       newTour.images.forEach((file) => {
         formData.append("images", file.originFileObj);
@@ -101,10 +96,10 @@ const Tours = () => {
     }
 
     try {
-      await createTourWithImages(formData, token);
+      await createTourWithImages(formData, token); // Şəkil ilə POST
       message.success("Tour uğurla yaradıldı!");
-
       setOpenModal(false);
+      setNewTour({ name: "", about: "", countryId: null, cityId: null, typeId: null, price: "", images: [] });
       loadTours();
     } catch (error) {
       console.error(error);
@@ -114,17 +109,11 @@ const Tours = () => {
 
   return (
     <div className="p-8">
-
-      {/* ADD BUTTON */}
-      <Button
-        type="primary"
-        style={{ marginBottom: 20 }}
-        onClick={() => setOpenModal(true)}
-      >
+      <Button type="primary" style={{ marginBottom: 20 }} onClick={() => setOpenModal(true)}>
         + Tour Əlavə Et
       </Button>
 
-      {/* ================== CREATE MODAL ================== */}
+      {/* CREATE MODAL */}
       <Modal
         open={openModal}
         title="Yeni Tour Əlavə Et"
@@ -135,68 +124,80 @@ const Tours = () => {
       >
         <Input
           placeholder="Tour adı"
-          onChange={(e) =>
-            setNewTour({ ...newTour, name: e.target.value })
-          }
+          value={newTour.name}
+          onChange={(e) => setNewTour({ ...newTour, name: e.target.value })}
+          className="mb-2"
         />
-
         <Input.TextArea
           placeholder="Haqqında"
           rows={3}
-          onChange={(e) =>
-            setNewTour({ ...newTour, about: e.target.value })
-          }
+          value={newTour.about}
+          onChange={(e) => setNewTour({ ...newTour, about: e.target.value })}
+          className="mb-2"
         />
 
-        <Input
-          placeholder="Country ID"
-          type="number"
-          onChange={(e) =>
-            setNewTour({ ...newTour, countryId: e.target.value })
-          }
-        />
+        {/* Country select */}
+        <Select
+          placeholder="Ölkə seçin"
+          value={newTour.countryId}
+          onChange={(value) => setNewTour({ ...newTour, countryId: value })}
+          style={{ width: "100%", marginBottom: 12 }}
+        >
+          {countries.map((c) => (
+            <Option key={c.id} value={c.id}>
+              {c.name}
+            </Option>
+          ))}
+        </Select>
 
-        <Input
-          placeholder="City ID"
-          type="number"
-          onChange={(e) =>
-            setNewTour({ ...newTour, cityId: e.target.value })
-          }
-        />
+        {/* City select */}
+        <Select
+          placeholder="Şəhər seçin"
+          value={newTour.cityId}
+          onChange={(value) => setNewTour({ ...newTour, cityId: value })}
+          style={{ width: "100%", marginBottom: 12 }}
+        >
+          {cities.map((c) => (
+            <Option key={c.id} value={c.id}>
+              {c.name}
+            </Option>
+          ))}
+        </Select>
 
-        <Input
-          placeholder="Type ID"
-          type="number"
-          onChange={(e) =>
-            setNewTour({ ...newTour, typeId: e.target.value })
-          }
-        />
+        {/* Type select */}
+        <Select
+          placeholder="Tour növü seçin"
+          value={newTour.typeId}
+          onChange={(value) => setNewTour({ ...newTour, typeId: value })}
+          style={{ width: "100%", marginBottom: 12 }}
+        >
+          {types.map((t) => (
+            <Option key={t.id} value={t.id}>
+              {t.name}
+            </Option>
+          ))}
+        </Select>
 
-        <Input
-          placeholder="Qiymət"
-          type="number"
-          onChange={(e) =>
-            setNewTour({ ...newTour, price: e.target.value })
-          }
-        />
-
-
+        {/* Image Upload */}
         <Upload
           listType="picture"
-          beforeUpload={() => false}
+          beforeUpload={() => false} // avtomatik yükləməsin
           multiple
-          onChange={({ fileList }) => {
-            setNewTour({ ...newTour, images: fileList });
-          }}
+          onChange={({ fileList }) => setNewTour({ ...newTour, images: fileList })}
         >
-          <Button>Şəkil seç</Button>
+          <Button style={{ width: "100%", marginTop: 12 }}>Şəkil seç</Button>
         </Upload>
 
+        <InputNumber
+          placeholder="Qiymət"
+          value={newTour.price}
+          onChange={(value) => setNewTour({ ...newTour, price: value })}
+          style={{ width: "100%", marginTop: 12 }}
+        />
       </Modal>
 
-      {/* ================== SHOW TOURS ================== */}
+      {/* SHOW TOURS */}
       <h2 style={{ textAlign: "center", marginBottom: 24 }}>Bütün Tours</h2>
-
       {loading ? (
         <Spin size="large" style={{ display: "block", margin: "80px auto" }} />
       ) : (
@@ -214,17 +215,16 @@ const Tours = () => {
                   ) : null
                 }
                 actions={[
-                  <Button danger onClick={(formData) => handleDelete(tour.id)}>
+                  <Button danger onClick={() => handleDelete(tour.id)}>
                     Delete
                   </Button>,
                 ]}
               >
-
-                <Text><b>Name:</b> {tour.name}</Text> <br />
-                <Text><b>About:</b> {tour.about}</Text> <br />
-                <Text><b>Country:</b> {tour.country?.name}</Text> <br />
-                <Text><b>City:</b> {tour.city?.name}</Text> <br />
-                <Text><b>Type:</b> {tour.type?.name}</Text> <br />
+                <Text><b>Name:</b> {tour.name}</Text><br />
+                <Text><b>About:</b> {tour.about}</Text><br />
+                <Text><b>Country:</b> {tour.country?.name}</Text><br />
+                <Text><b>City:</b> {tour.city?.name}</Text><br />
+                <Text><b>Type:</b> {tour.type?.name}</Text><br />
                 <Text><b>Price:</b> ${tour.price}</Text>
               </Card>
             </Col>
