@@ -11,6 +11,7 @@ import AdminCountry from "../pages/Admin/pages/Country";
 import AdminTour from "../pages/Admin/pages/Tour";
 import AdminCity from "../pages/Admin/pages/City";
 import UserCity from "../pages/City";
+import TourType from "../pages/Admin/pages/TourType";
 
 
 const router = createBrowserRouter([
@@ -57,7 +58,8 @@ const router = createBrowserRouter([
       { path: "countries", element: <AdminCountry /> },
       { path: "cities", element: <AdminCity /> },
       { path: "contact", element: <AdminContact /> },
-      { path: "tour", element: <AdminTour /> }
+      { path: "tour", element: <AdminTour /> },
+      { path: "tourtype", element: <TourType /> }
     ],
   },
 ]);

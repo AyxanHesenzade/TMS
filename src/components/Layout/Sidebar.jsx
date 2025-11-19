@@ -10,7 +10,8 @@ import {
   InfoCircleOutlined,
   HomeOutlined,
   FlagOutlined,
-  EnvironmentOutlined 
+  EnvironmentOutlined,
+  AppstoreOutlined
 } from "@ant-design/icons";
 import styles from "./layout.module.scss";
 
@@ -46,6 +47,11 @@ const Sidebar = () => {
       key: "/admin/tour",
       icon: <CompassOutlined />,
       label: <Link to="/admin/tour">{t.sidebar.tour}</Link>,
+    }, 
+    {
+      key: "/admin/tourtype",
+      icon: <AppstoreOutlined/>,
+      label: <Link to="/admin/tourtype">TourType</Link>,
     }, 
     {
       key: "/admin/about",
@@ -86,6 +92,7 @@ const Sidebar = () => {
       icon: <InfoCircleOutlined />,
       label: <Link to="/about">{t.sidebar.about}</Link>,
     },
+
   ];
 
   const menuItems = user?.role === "admin" ? adminMenu : userMenu;

@@ -1,21 +1,9 @@
-import { useLanguage } from "../../../../context/LanguageContext";
 import React, { useEffect, useState } from "react";
-import {
-  Card,
-  Row,
-  Col,
-  Typography,
-  Spin,
-  message,
-  Button,
-  Input,
-  InputNumber,
-  Modal,
-  Select,
-  Upload,
-} from "antd";
+import { Card, Row, Col, Typography, Spin, message, Button, Input, InputNumber, Modal, Select, Upload } from "antd";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { getTours, deleteTour, createTourWithImages } from "../../../../services/service";
-import { GetCountries, GetCities } from "../../../../services/service";
+import { GetCountries, GetCities, GetTourTypes } from "../../../../services/service";
+import styles from "./Tours.module.scss";
 
 const { Text } = Typography;
 const { Option } = Select;
@@ -25,15 +13,9 @@ const Tours = () => {
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-
   const [countries, setCountries] = useState([]);
   const [cities, setCities] = useState([]);
-  const [types, setTypes] = useState([
-    { id: 1, name: "Adventure" },
-    { id: 2, name: "Relax" },
-    { id: 3, name: "Cultural" },
-  ]);
-
+  const [types, setTypes] = useState([]);
   const [newTour, setNewTour] = useState({
     name: "",
     about: "",
@@ -43,8 +25,8 @@ const Tours = () => {
     price: "",
     images: [],
   });
+  const [selectedTour, setSelectedTour] = useState(null);
 
-  // ================== GET ALL TOURS ==================
   const loadTours = async () => {
     setLoading(true);
     try {
@@ -61,9 +43,9 @@ const Tours = () => {
     loadTours();
     GetCountries().then((data) => setCountries(data));
     GetCities(token).then((data) => setCities(data));
+    GetTourTypes(token).then((data) => setTypes(data));
   }, []);
 
-  // ================== DELETE TOUR ==================
   const handleDelete = async (id) => {
     try {
       await deleteTour(id, token);
@@ -74,20 +56,16 @@ const Tours = () => {
     }
   };
 
-  // ================== CREATE TOUR (MODAL) ==================
   const handleCreate = async () => {
     const formData = new FormData();
     formData.append("name", newTour.name);
     formData.append("about", newTour.about);
     formData.append("countryId", Number(newTour.countryId));
     formData.append("cityId", Number(newTour.cityId));
-    formData.append("typeId", Number(newTour.typeId)); // DƏYİŞDİ
+    formData.append("typeId", Number(newTour.typeId));
     formData.append("price", Number(newTour.price));
-  
-    newTour.images.forEach((file) => {
-      formData.append("files", file.originFileObj); // DƏYİŞDİ
-    });
-  
+    newTour.images.forEach((file) => formData.append("files", file.originFileObj));
+
     try {
       await createTourWithImages(formData, token);
       message.success("Tour uğurla yaradıldı!");
@@ -98,131 +76,155 @@ const Tours = () => {
       message.error("Tour yaratmaq alınmadı");
     }
   };
-  
 
   return (
-    <div className="p-8">
-      <Button type="primary" style={{ marginBottom: 20 }} onClick={() => setOpenModal(true)}>
-        + Tour Əlavə Et
-      </Button>
+    <div className={styles.toursContainer}>
 
-      {/* CREATE MODAL */}
-      <Modal
-        open={openModal}
-        title="Yeni Tour Əlavə Et"
-        onCancel={() => setOpenModal(false)}
-        onOk={handleCreate}
-        okText="Yarat"
-        cancelText="Bağla"
-      >
-        <Input
-          placeholder="Tour adı"
-          value={newTour.name}
-          onChange={(e) => setNewTour({ ...newTour, name: e.target.value })}
-          className="mb-2"
-        />
-        <Input.TextArea
-          placeholder="Haqqında"
-          rows={3}
-          value={newTour.about}
-          onChange={(e) => setNewTour({ ...newTour, about: e.target.value })}
-          className="mb-2"
-        />
 
-        {/* Country select */}
-        <Select
-          placeholder="Ölkə seçin"
-          value={newTour.countryId}
-          onChange={(value) => setNewTour({ ...newTour, countryId: value })}
-          style={{ width: "100%", marginBottom: 12 }}
-        >
-          {countries.map((c) => (
-            <Option key={c.id} value={c.id}>
-              {c.name}
-            </Option>
-          ))}
-        </Select>
+      <Button
+        type="primary"
+        shape="circle"
+        icon={<PlusOutlined />}
+        size="large"
+        className={styles.addButton}
+        onClick={() => setOpenModal(true)}
+      />
 
-        {/* City select */}
-        <Select
-          placeholder="Şəhər seçin"
-          value={newTour.cityId}
-          onChange={(value) => setNewTour({ ...newTour, cityId: value })}
-          style={{ width: "100%", marginBottom: 12 }}
-        >
-          {cities.map((c) => (
-            <Option key={c.id} value={c.id}>
-              {c.name}
-            </Option>
-          ))}
-        </Select>
 
-        {/* Type select */}
-        <Select
-          placeholder="Tour növü seçin"
-          value={newTour.typeId}
-          onChange={(value) => setNewTour({ ...newTour, typeId: value })}
-          style={{ width: "100%", marginBottom: 12 }}
-        >
-          {types.map((t) => (
-            <Option key={t.id} value={t.id}>
-              {t.name}
-            </Option>
-          ))}
-        </Select>
+      {/* CREATE TOUR MODAL */}
+<Modal
+  open={openModal}
+  title={<div className={styles.modalTitle}>Yeni Tour Əlavə Et</div>}
+  onCancel={() => setOpenModal(false)}
+  onOk={handleCreate}
+  okText="Yarat"
+  cancelText="Bağla"
+  className={styles.createTourModal}
+>
+  <div className={styles.modalContent}>
+    <Input
+      placeholder="Tour adı"
+      value={newTour.name}
+      onChange={(e) => setNewTour({ ...newTour, name: e.target.value })}
+    />
+    <Input.TextArea
+      placeholder="Haqqında"
+      rows={3}
+      value={newTour.about}
+      onChange={(e) => setNewTour({ ...newTour, about: e.target.value })}
+    />
+    <Select
+      placeholder="Ölkə seçin"
+      value={newTour.countryId}
+      onChange={(value) => setNewTour({ ...newTour, countryId: value })}
+    >
+      {countries.map((c) => (
+        <Option key={c.id} value={c.id}>{c.name}</Option>
+      ))}
+    </Select>
+    <Select
+      placeholder="Şəhər seçin"
+      value={newTour.cityId}
+      onChange={(value) => setNewTour({ ...newTour, cityId: value })}
+    >
+      {cities.map((c) => (
+        <Option key={c.id} value={c.id}>{c.name}</Option>
+      ))}
+    </Select>
+    <Select
+      placeholder="Tour növü seçin"
+      value={newTour.typeId}
+      onChange={(value) => setNewTour({ ...newTour, typeId: value })}
+    >
+      {types.map((t) => (
+        <Option key={t.id} value={t.id}>{t.name}</Option>
+      ))}
+    </Select>
+    <Upload
+      listType="picture-card"
+      beforeUpload={() => false}
+      multiple
+      onChange={({ fileList }) => setNewTour({ ...newTour, images: fileList })}
+    >
+      <Button>Şəkil seç</Button>
+    </Upload>
+    <InputNumber
+      placeholder="Qiymət"
+      value={newTour.price}
+      onChange={(value) => setNewTour({ ...newTour, price: value })}
+    />
+  </div>
+</Modal>
 
-        {/* Image Upload */}
-        <Upload
-          listType="picture"
-          beforeUpload={() => false} // avtomatik yükləməsin
-          multiple
-          onChange={({ fileList }) => setNewTour({ ...newTour, images: fileList })}
-        >
-          <Button style={{ width: "100%", marginTop: 12 }}>Şəkil seç</Button>
-        </Upload>
 
-        <InputNumber
-          placeholder="Qiymət"
-          value={newTour.price}
-          onChange={(value) => setNewTour({ ...newTour, price: value })}
-          style={{ width: "100%", marginTop: 12 }}
-        />
-      </Modal>
+      <h2 className={styles.title}>Bütün Tours</h2>
 
-      {/* SHOW TOURS */}
-      <h2 style={{ textAlign: "center", marginBottom: 24 }}>Bütün Tours</h2>
       {loading ? (
         <Spin size="large" style={{ display: "block", margin: "80px auto" }} />
       ) : (
-        <Row gutter={[24, 24]}>
+        <Row gutter={[24, 24]} className={styles.cardsRow}>
           {tours.map((tour) => (
-            <Col key={tour.id} xs={24} sm={12} md={8}>
+            <Col key={tour.id} xs={24} sm={12} md={8} lg={6} xl={6}>
               <Card
-                cover={
-                  tour.images?.length > 0 ? (
-                    <img
-                      alt={tour.name}
-                      src={tour.images[0].imagePath}
-                      style={{ height: 180, objectFit: "cover" }}
-                    />
-                  ) : null
-                }
-                actions={[
-                  <Button danger onClick={() => handleDelete(tour.id)}>
-                    Delete
-                  </Button>,
-                ]}
+                hoverable
+                className={styles.tourCard}
+                onClick={() => setSelectedTour(tour)}
+
               >
-                <Text><b>Name:</b> {tour.name}</Text><br />
-                <Text><b>About:</b> {tour.about}</Text><br />
-                <Text><b>Country:</b> {tour.country?.name}</Text><br />
-                <Text><b>City:</b> {tour.city?.name}</Text><br />
-                <Text><b>Type:</b> {tour.type?.name}</Text><br />
-                <Text><b>Price:</b> ${tour.price}</Text>
+
+                {tour.images?.[0] && (
+                  <img src={tour.images[0].imagePath} alt={tour.name} className={styles.coverImage} />
+                )}
+                <hr />
+                <div className={styles.tourName}>{tour.name}</div>
+
+                <Text className={styles.tourInfo}><b>Ölkə:</b> {countries.find(c => c.id === tour.countryId)?.name || "—"}</Text>
+                <Text className={styles.tourInfo}><b>Şəhər:</b> {cities.find(c => c.id === tour.cityId)?.name || "—"}</Text>
+                <Text className={styles.tourInfo}><b>Type:</b> {types.find(t => t.id === tour.typeId)?.name || "—"}</Text>
+                <Text className={styles.tourAbout}>{tour.about}</Text>
+                <Text className={styles.tourPrice}>${tour.price}</Text>
+                <hr />
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(tour.id);
+                  }}
+                  className={styles.deleteIcon}
+                >
+                  <DeleteOutlined />
+                </Button>
+
+
+
               </Card>
             </Col>
           ))}
         </Row>
+      )}
+
+      {/* Card klik modal */}
+      {selectedTour && (
+        <Modal
+          open={!!selectedTour}
+          onCancel={() => setSelectedTour(null)}
+          footer={null}
+          className={styles.cardModal}
+          title={
+            <div className={styles.modalTitle}>
+              {selectedTour.name}
+            </div>
+          }
+        >
+          {selectedTour.images?.[0] && (
+            <img src={selectedTour.images[0].imagePath} alt={selectedTour.name} className={styles.modalImage} />
+          )}
+          <Text className={styles.modalText}><b>Ölkə:</b> {countries.find(c => c.id === selectedTour.countryId)?.name || "—"}</Text>
+          <Text className={styles.modalText}><b>Şəhər:</b> {cities.find(c => c.id === selectedTour.cityId)?.name || "—"}</Text>
+          <Text className={styles.modalText}><b>Type:</b> {types.find(t => t.id === selectedTour.typeId)?.name || "—"}</Text>
+          <Text className={styles.modalText}>{selectedTour.about}</Text>
+          <Text className={styles.modalPrice}>${selectedTour.price}</Text>
+        </Modal>
+
       )}
     </div>
   );

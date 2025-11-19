@@ -1,82 +1,98 @@
-// src/pages/Tour/index.jsx
 import React, { useEffect, useState } from "react";
-import { Card, Row, Col, Typography, Spin, message } from "antd";
-import { useLanguage } from "../../context/LanguageContext";
-import { getTours } from "../../services/service";
+import { Card, Row, Col, Typography, Spin, Modal } from "antd";
+import { getTours, GetCountries, GetCities, GetTourTypes } from "../../services/service";
+import styles from "./ToursUser.module.scss";
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 const Tour = () => {
-  const { t } = useLanguage();
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [countries, setCountries] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [types, setTypes] = useState([]);
+  const [selectedTour, setSelectedTour] = useState(null);
+
+  // GET Tours
+  const loadTours = async () => {
+    setLoading(true);
+    try {
+      const data = await getTours(); // token yoxdur
+      setTours(data);
+    } catch (err) {
+      console.error("Tour məlumatlarını almaqda xəta oldu", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchTours = async () => {
-      setLoading(true);
-      try {
-        const data = await getTours();
-        setTours(data);
-      } catch (error) {
-        message.error("Tour məlumatları alınarkən xəta baş verdi");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTours();
+    loadTours();
+    GetCountries().then((data) => setCountries(data));
+    GetCities().then((data) => setCities(data));
+    GetTourTypes().then((data) => setTypes(data));
   }, []);
 
-  if (loading) return <Spin style={{ display: "block", margin: "100px auto" }} size="large" />;
-
   return (
-    <div className="p-8 bg-gray-100 min-h-screen">
-      <Title level={2} style={{ textAlign: "center", marginBottom: 24 }}>
-        {t.tours.title}
-      </Title>
-      <Row gutter={[24, 24]} justify="center">
-        {tours.map((tour) => (
-          <Col key={tour.id} xs={24} sm={12} md={8}>
-            <Card
-              cover={
-                tour.images && tour.images.length > 0 ? (
+    <div className={styles.toursContainer}>
+      <h2 className={styles.title}>Bütün Tours</h2>
+
+      {loading ? (
+        <Spin size="large" style={{ display: "block", margin: "80px auto" }} />
+      ) : (
+        <Row gutter={[24, 24]} className={styles.cardsRow}>
+          {tours.map((tour) => (
+            <Col key={tour.id} xs={24} sm={12} md={8} lg={6} xl={6}>
+              <Card
+                hoverable
+                className={styles.tourCard}
+                onClick={() => setSelectedTour(tour)}
+              >
+                {tour.images?.[0] && (
                   <img
-                    alt={tour.name}
                     src={tour.images[0].imagePath}
-                    style={{ height: 200, objectFit: "cover" }}
+                    alt={tour.name}
+                    className={styles.coverImage}
                   />
-                ) : null
-              }
-              bordered={false}
-              style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}
-            >
-              <Text>
-                <b>{t.tours.name}:</b> {tour.name}
+                )}
+                <div className={styles.tourName}>{tour.name}</div>
+                <Text className={styles.tourInfo}><b>Ölkə:</b> {countries.find(c => c.id === tour.countryId)?.name || "—"}</Text>
+                <Text className={styles.tourInfo}><b>Şəhər:</b> {cities.find(c => c.id === tour.cityId)?.name || "—"}</Text>
+                <Text className={styles.tourInfo}><b>Type:</b> {types.find(t => t.id === tour.typeId)?.name || "—"}</Text>
+                <Text className={styles.tourAbout} ellipsis={{ rows: 3, tooltip: false }}>
+                    {tour.about}
               </Text>
-              <br />
-              <Text>
-                <b>{t.tours.about}:</b> {tour.about}
-              </Text>
-              <br />
-              <Text>
-                <b>{t.tours.country}:</b> {tour.country?.name}
-              </Text>
-              <br />
-              <Text>
-                <b>{t.tours.city}:</b> {tour.city?.name}
-              </Text>
-              <br />
-              <Text>
-                <b>{t.tours.type}:</b> {tour.type?.name}
-              </Text>
-              <br />
-              <Text>
-                <b>{t.tours.price}:</b> ${tour.price}
-              </Text>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+
+                <Text className={styles.tourPrice}>${tour.price}</Text>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      )}
+
+      {/* Card klik modal */}
+      {selectedTour && (
+        <Modal
+          open={!!selectedTour}
+          onCancel={() => setSelectedTour(null)}
+          footer={null}
+          className={styles.cardModal}
+          title={<div className={styles.modalTitle}>{selectedTour.name}</div>}
+        >
+          {selectedTour.images?.[0] && (
+            <img
+              src={selectedTour.images[0].imagePath}
+              alt={selectedTour.name}
+              className={styles.modalImage}
+            />
+          )}
+          <Text className={styles.modalText}><b>Ölkə:</b> {countries.find(c => c.id === selectedTour.countryId)?.name || "—"}</Text>
+          <Text className={styles.modalText}><b>Şəhər:</b> {cities.find(c => c.id === selectedTour.cityId)?.name || "—"}</Text>
+          <Text className={styles.modalText}><b>Type:</b> {types.find(t => t.id === selectedTour.typeId)?.name || "—"}</Text>
+          <Text className={styles.modalText}>{selectedTour.about}</Text>
+          <Text className={styles.modalPrice}>${selectedTour.price}</Text>
+        </Modal>
+      )}
     </div>
   );
 };

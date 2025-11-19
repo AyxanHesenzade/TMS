@@ -139,8 +139,49 @@ export const DeleteCity = async (id, token) => {
 };
 
 
+// TOUR TYPE API
 
+export const GetTourTypes = async () => {
+  const response = await axios.get(`${BASE_URL}/api/TourType`);
+  return response.data;
+};
 
+// POST tour type
+export const postTourType = async (data, token) => {
+  const response = await axios.post(`${BASE_URL}/api/TourType`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+};
+
+// PUT tour type
+export const putTourType = async (id, name, token) => {
+  const response = await axios.put(
+    `${BASE_URL}/api/TourType/${id}`,
+    { name },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return response.data;
+};
+
+// DELETE tour type
+export const deleteTourType = async (id, token) => {
+  const response = await axios.delete(`${BASE_URL}/api/TourType/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+};
 
 
 // Tours
