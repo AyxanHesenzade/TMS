@@ -113,24 +113,40 @@ const Tours = () => {
       value={newTour.about}
       onChange={(e) => setNewTour({ ...newTour, about: e.target.value })}
     />
+ <Select
+  placeholder="Ölkə seçin"
+  value={newTour.countryId}
+  onChange={(value) =>
+    setNewTour({
+      ...newTour,
+      countryId: value,
+      cityId: null // 🔥 country dəyişəndə city sıfırlanır
+    })
+  }
+>
+  {countries.map((c) => (
+    <Option key={c.id} value={c.id}>{c.name}</Option>
+  ))}
+</Select>
+
     <Select
-      placeholder="Ölkə seçin"
-      value={newTour.countryId}
-      onChange={(value) => setNewTour({ ...newTour, countryId: value })}
-    >
-      {countries.map((c) => (
-        <Option key={c.id} value={c.id}>{c.name}</Option>
-      ))}
-    </Select>
-    <Select
-      placeholder="Şəhər seçin"
-      value={newTour.cityId}
-      onChange={(value) => setNewTour({ ...newTour, cityId: value })}
-    >
-      {cities.map((c) => (
-        <Option key={c.id} value={c.id}>{c.name}</Option>
-      ))}
-    </Select>
+  placeholder="Şəhər seçin"
+  value={newTour.cityId}
+  disabled={!newTour.countryId} // 🔥 ölkə seçilməyibsə bağlı olacaq
+  onClick={() => {
+    if (!newTour.countryId) {
+      message.warning("Zəhmət olmasa əvvəlcə ölkə seçin!");
+    }
+  }}
+  onChange={(value) => setNewTour({ ...newTour, cityId: value })}
+>
+  {cities
+    .filter((c) => c.countyId === newTour.countryId) // 🔥 yalnız seçilmiş ölkənin şəhərləri görünsün
+    .map((c) => (
+      <Option key={c.id} value={c.id}>{c.name}</Option>
+    ))}
+</Select>
+
     <Select
       placeholder="Tour növü seçin"
       value={newTour.typeId}
