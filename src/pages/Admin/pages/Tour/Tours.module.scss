@@ -1,0 +1,154 @@
+.toursContainer {
+  padding: 24px;
+}
+
+.addButton {
+  margin-bottom: 24px;
+  border-radius: 8px;
+  font-weight: bold;
+  padding: 0 20px;
+  height: 42px;
+  font-size: 16px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 32px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.cardsRow {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tourCard {
+  border-radius: 12px;
+  overflow: hidden;
+  padding-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+  position: relative;
+  cursor: pointer;
+}
+
+.coverImage {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.tourName {
+  font-size: 20px; // digərlərindən bir az böyük
+  font-weight: 600;
+  text-align: center;
+  margin: 12px 0;
+}
+
+.tourAbout {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tourInfo {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.tourPrice {
+  display: block;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.deleteIcon {
+  position: absolute;
+  bottom: 14px;
+  right: 12px;
+  font-size: 18px;
+  border: none;
+  box-shadow: none;
+  color: red;
+  cursor: pointer;
+}
+
+/* Modal Card */
+.modalTitle {
+  font-size: 24px;
+  font-weight: 500;
+  text-align: center;
+  width: 100%;
+}
+
+
+.modalImage {
+  width: 100%;
+  margin-bottom: 12px;
+  border-radius: 8px;
+}
+
+.modalText {
+  display: block;
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.modalPrice {
+  display: block;
+  font-size: 20px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.createTourModal {
+  .ant-modal-header {
+    text-align: center;
+    .ant-modal-title {
+      font-size: 24px;
+      font-weight: 700;
+    }
+  }
+
+  .modalContent {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; // input-lar arası məsafə
+
+    input,
+    textarea,
+    .ant-select,
+    .ant-input-number {
+      width: 100%;
+    }
+
+    .ant-upload {
+      display: block;
+      .ant-btn {
+        border: none;
+      }
+    }
+  }
+
+
+  .ant-modal-footer {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+  }
+}
+
+.modalTitle {
+  text-align: center;
+  font-weight: 700;
+  font-size: 24px;
+}

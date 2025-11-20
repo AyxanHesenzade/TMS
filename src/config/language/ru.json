@@ -9,7 +9,10 @@
   "header": {
     "language": "Язык",
     "theme": "Тема",
-    "exit":"Выход"
+    "exit":"Выход",
+    "loginMessage": "Вы успешно вошли!",
+    "loginError": "Неверный email или пароль!"
+
   },
   "adminLoginModal": {
   "title": "Вход",

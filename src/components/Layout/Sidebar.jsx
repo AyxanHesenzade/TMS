@@ -10,6 +10,8 @@ import {
   InfoCircleOutlined,
   HomeOutlined,
   FlagOutlined,
+  EnvironmentOutlined,
+  AppstoreOutlined
 } from "@ant-design/icons";
 import styles from "./layout.module.scss";
 
@@ -32,6 +34,11 @@ const Sidebar = () => {
       label: <Link to="/admin/countries">{t.sidebar.countries}</Link>,
     },
     {
+      key: "/admin/cities",
+      icon: <EnvironmentOutlined />,
+      label: <Link to="/admin/cities">City</Link>,
+    },
+    {
       key: "/admin/contact",
       icon: <ContactsOutlined />,
       label: <Link to="/admin/contact">{t.sidebar.contacts}</Link>,
@@ -42,10 +49,16 @@ const Sidebar = () => {
       label: <Link to="/admin/tour">{t.sidebar.tour}</Link>,
     }, 
     {
+      key: "/admin/tourtype",
+      icon: <AppstoreOutlined/>,
+      label: <Link to="/admin/tourtype">TourType</Link>,
+    }, 
+    {
       key: "/admin/about",
       icon: <InfoCircleOutlined />,
       label: <Link to="/admin/about">Admin {t.sidebar.about}</Link>,
     }, 
+    
   ];
 
   const userMenu = [
@@ -56,8 +69,13 @@ const Sidebar = () => {
     },
     {
       key: "/countries",
-      icon: <ContactsOutlined />,
+      icon: <FlagOutlined/>,
       label: <Link to="/countries">{t.sidebar.countries}</Link>,
+    },
+    {
+      key: "/cities",
+      icon: <EnvironmentOutlined />,
+      label: <Link to="/cities">City</Link>,
     },
     {
       key: "/contacts",
@@ -74,6 +92,7 @@ const Sidebar = () => {
       icon: <InfoCircleOutlined />,
       label: <Link to="/about">{t.sidebar.about}</Link>,
     },
+
   ];
 
   const menuItems = user?.role === "admin" ? adminMenu : userMenu;

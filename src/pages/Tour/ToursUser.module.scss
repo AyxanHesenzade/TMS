@@ -1,0 +1,92 @@
+.toursContainer {
+    padding: 20px;
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 32px;
+  }
+  
+  .cardsRow {
+    display: flex;
+  }
+  
+  .tourCard {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+  
+    &:hover {
+      transform: translateY(-5px);
+    }
+  }
+  
+  .coverImage {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+  
+  .tourName {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    margin: 12px 0;
+  }
+  
+  .tourInfo {
+    display: block;
+    font-size: 14px;
+    margin: 4px 0;
+  }
+  
+  .tourAbout {
+    display: block;
+    font-size: 14px;
+    margin: 8px 0;
+  }
+  
+  .tourPrice {
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .cardModal {
+    .ant-modal-title {
+      text-align: center;
+    }
+ 
+  }
+  
+  .modalTitle {
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+  }
+  
+  .modalImage {
+    width: 100%;
+    margin-bottom: 12px;
+    border-radius: 8px;
+  }
+  
+  .modalText {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  .modalPrice {
+    display: block;
+
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+  }
+  
